@@ -10,12 +10,11 @@ export default function LoginPage(){
             const res = await loginAction(email,password)
 
             if (!res.success) {
-            toast.error(res.error!)
-            return
+                toast.error(res.error!)
+                return
             }
 
-            localStorage.setItem("token", res.token!)
-
+            localStorage.setItem('token',`${res.token}`)
             toast.success("Sucesso!")
             redirect("/")
     }

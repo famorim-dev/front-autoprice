@@ -4,6 +4,10 @@ import { Consulta } from "@/types/consulta";
 
 export async function consultaService(): Promise<Consulta> {
     const res =  await api.get('papel-categoria')
-    console.log(res)
+    return res.data
+}
+
+export async function geraExcel(id:string, inicio: string, fim: string, extracao: string ): Promise<Consulta> {
+    const res =  await api.post(`papel-categoria/${id}`, {inicio: inicio, fim: fim, extract: extracao})
     return res.data
 }

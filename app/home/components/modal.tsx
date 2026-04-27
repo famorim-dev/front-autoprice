@@ -1,5 +1,6 @@
 'use client'
 
+import { geraExcel } from "@/services/consultas"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -8,7 +9,7 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
   const [dataFim, setDataFim] = useState("")
   const [dataExtracao, setDataExtracao] = useState("")
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!dataInicio || !dataFim) {
         toast.error("Preencha data de início e fim")
         return
@@ -32,7 +33,13 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
         toast.error("Digite somente ano e mês no formato 2020-09")
         return
     }
-
+    try {
+        await geraExcel(id, dataInicio, dataFim, dataExtracao)
+        toast.success("Arquivo gerado com sucesso!")
+        onClose()
+    } catch (err) {
+        toast.error("Erro ao gerar arquivo")
+    }
   }
 
   return (

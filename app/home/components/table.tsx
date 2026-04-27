@@ -4,11 +4,21 @@ import { consultaService } from "@/services/consultas"
 import { Consulta } from "@/types/consulta"
 import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
+import { FaFileExcel } from "react-icons/fa"
+import ModalConsulta from "./modal"
+
 
 export default function TableHom() {
   const [data, setData] = useState<Consulta[]>([])
   const [searchName, setSearchName] = useState("")
   const [searchClient, setSearchClient] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [selectedId, setSelectedId] = useState("")
+  const [selectedNome, setSelectedNome] = useState("")
+  const [selectedCliente, setSelectedCliente] = useState("")
+  const [page, setPage] = useState(1)
+
+  const itemsPerPage = 10
 
   useEffect(() => {
     consultaService()
@@ -22,7 +32,34 @@ export default function TableHom() {
     return matchName && matchClient
   })
 
+  const handleOpenModal = (id: string, nome:string, cliente :string) => {
+    setSelectedId(id)
+    setSelectedNome(nome)
+    setSelectedCliente(cliente)
+    setIsModalOpen(true)
+  }
+  
+    useEffect(() => {
+            setPage(1)
+        }, [searchName, searchClient])
+
+        const totalPages = Math.ceil(filteredData.length / itemsPerPage)
+
+        const start = (page - 1) * itemsPerPage
+        const end = start + itemsPerPage
+
+        const paginatedData = filteredData.slice(start, end)
+
   return (
+  <div className="p-4">
+    {isModalOpen && selectedId !== "" && (
+        <ModalConsulta
+            id={selectedId}
+            nome={selectedNome}
+            cliente={selectedCliente}
+            onClose={() => setIsModalOpen(false)}
+        />
+    )}
     <div className="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
 
       <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
@@ -90,6 +127,9 @@ export default function TableHom() {
               <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
                 Criado
               </th>
+              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+                Excel
+              </th>
             </tr>
           </thead>
 
@@ -118,6 +158,14 @@ export default function TableHom() {
                   <td className="p-4 border-b border-blue-gray-50">
                     {new Date(item.criado).toLocaleDateString('pt-BR')}
                   </td>
+                  <td className="p-4 border-b border-blue-gray-50">
+                    <button 
+                    onClick={() => handleOpenModal(item.id, item.nome, item.cliente)}
+                    className="flex items-center gap-2 cursor-pointer font-bold border-2 border-gray-400 p-2 rounded-xl transition-all duration-200 hover:bg-green-600 hover:text-white hover:border-green-600 hover:shadow-lg hover:-translate-y-0.5">
+                        Gerar Excel
+                        <FaFileExcel />
+                    </button>
+                  </td>
 
                 </tr>
               ))
@@ -130,8 +178,30 @@ export default function TableHom() {
             )}
           </tbody>
         </table>
-      </div>
 
+        <div className="flex items-center justify-between mt-6 p-5">
+          <button
+            onClick={() => setPage(p => Math.max(p - 1, 1))}
+            disabled={page === 1}
+            className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+          >
+            Anterior
+          </button>
+
+          <span>
+            Página {page} de {totalPages || 1}
+          </span>
+
+          <button
+            onClick={() => setPage(p => Math.min(p + 1, totalPages))}
+            disabled={page >= totalPages}
+            className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+          >
+            Próxima
+          </button>
+        </div>
+       </div>
+      </div>
     </div>
   )
 }

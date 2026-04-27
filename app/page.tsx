@@ -6,12 +6,12 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 
 export default function Home() {
-  const [data, setData] = useState<Consulta | null>(null)
+  const [data, setData] = useState<Consulta[]>([])
   console.log(data)
   useEffect(()=>{
 
     consultaService()
-    .then(res => setData(res))
+    .then(res => setData([res]))
     .catch(err => toast.error("Não foi possivel Carregar as informações"))
   },[])
 

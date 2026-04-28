@@ -16,7 +16,7 @@ export default function LoginPage(){
 
             localStorage.setItem('token',`${res.token}`)
             toast.success("Sucesso!")
-            redirect("/")
+            redirect("/home")
     }
     return(
             <main className=" w-full min-h-screen flex items-center">

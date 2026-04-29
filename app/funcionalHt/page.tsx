@@ -10,7 +10,7 @@ export default function FuncionalHt(){
 
   useEffect(() => {
     async function check() {
-      const ok = await redirecionaPorCargo("ht")
+      const ok = await redirecionaPorCargo(["suporte","admin"])
 
       if (!ok) {
         router.push("/404")

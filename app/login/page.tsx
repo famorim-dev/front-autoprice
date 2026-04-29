@@ -13,8 +13,7 @@ export default function LoginPage(){
                 toast.error(res.error!)
                 return
             }
-
-            localStorage.setItem('token',`${res.token}`)
+            
             toast.success("Sucesso!")
             redirect("/home")
     }

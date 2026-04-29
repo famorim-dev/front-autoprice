@@ -1,5 +1,5 @@
 'use client'
-import { redirect } from "next/navigation"
+import { logout } from "@/utils/logout"
 import { useState } from "react"
 import { BiUser } from "react-icons/bi"
 
@@ -10,9 +10,8 @@ export function Header(){
         setOpen(action)
     }
 
-    const handleDesconnect = () => {
-        localStorage.removeItem("token")
-        redirect("/login")
+    const handleDesconnect = async () => {
+        logout()
     }
     
     return(

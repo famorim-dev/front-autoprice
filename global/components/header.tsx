@@ -1,14 +1,28 @@
 'use client'
+import { me } from "@/services/me"
+import { Me } from "@/types/me"
 import { logout } from "@/utils/logout"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 import { BiUser } from "react-icons/bi"
+import { chamaMe } from "./actions/me"
 
 export function Header(){
     const [open, setOpen] = useState<Boolean>(false)
+    const [user, setUser] = useState<Me | null>(null)
+    const router = useRouter()
 
-    const handleClick = (action: Boolean) => {
-        setOpen(action)
-    }
+    useEffect(() => {
+        async function check() {
+            const user = await me()
+            if(!user){
+                router.push("/login")
+            }
+            setUser(user)
+        }
+        
+        check()
+    }, [])
 
     const handleDesconnect = async () => {
         logout()
@@ -54,15 +68,33 @@ export function Header(){
                     </div>
 
                     <div className="relative">
-                        <button onClick={() => handleClick(true)} className="text-slate-900 text-sm font-semibold hover:text-gray-800 cursor-pointer focus:outline-none focus-visible:ring-2 rounded-4xl border w-full h-full ">
-                            <BiUser size={34}/>
-                        </button>
+                        <section className="group w-full h-full flex items-center gap-3 p-3 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-all duration-300">
+                            
+                            <button 
+                                onClick={() => setOpen(prev => !prev)} 
+                                className="flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 text-gray-700 
+                                        group-hover:bg-blue-50 group-hover:text-blue-600 
+                                        transition-all duration-300 
+                                        focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 cursor-pointer"
+                            >
+                                <BiUser size={24}/>
+                            </button>
+                            <div className="flex flex-col leading-tight">
+                                <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">
+                                    {user?.cargo}
+                                </p>
+                                <p className="text-sm font-semibold text-gray-800">
+                                    {user?.nome}
+                                </p>
+                            </div>
+
+                        </section>
                             {open && (
                                 <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg border">
                                     <ul className="text-sm">
                                         {/* <li className="p-2 text-gray-700 font-semibold cursor-pointer">Perfil</li>
                                         <li className="p-2 text-gray-700 font-semibold cursor-pointer">Configurações</li> */}
-                                        <li onClick={() => handleDesconnect()} className="p-2 text-gray-700 font-semibold cursor-pointer">Sair</li>
+                                        <li onClick={() => handleDesconnect()} className="block w-full px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-50 ltr:text-left rtl:text-right dark:text-gray-700 dark:hover:bg-red-700/20 cursor-pointer">Sair</li>
                                     </ul>
                                 </div>
                             )}

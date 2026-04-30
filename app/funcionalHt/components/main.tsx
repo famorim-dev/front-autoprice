@@ -1,5 +1,5 @@
 'use client'
-import { ht } from "@/services/ht"
+import { getlog, ht } from "@/services/ht"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
@@ -28,8 +28,19 @@ export function MainHt(){
         }
     }
 
-    const handleClickBaixar = () => {
-        //Chamar service quando disponivel o endpoint
+    const handleClickBaixar = async () => {
+        try{
+            toast.success("Aguarde o Envio por Email!")
+            const res = await getlog()
+            toast.success(res.message)
+            
+        }catch(e: any){
+            if(e.status == 500){
+                toast.error("Erro Interno do Servidor!")
+            }else{
+                toast.error(e.message )
+            }
+        }
     }
 
     return(

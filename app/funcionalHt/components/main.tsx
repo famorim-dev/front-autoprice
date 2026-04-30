@@ -23,7 +23,7 @@ export function MainHt(){
             if(e.status == 500){
                 toast.error("Erro Interno do Servidor!")
             }else{
-                toast.error(e.data.message)
+                toast.error(e.message )
             }
         }
     }

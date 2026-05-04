@@ -16,7 +16,7 @@ export function Header(){
         async function check() {
             const user = await me()
             if(!user){
-                router.push("/login")
+               // router.push("/login")
             }
             setUser(user)
         }

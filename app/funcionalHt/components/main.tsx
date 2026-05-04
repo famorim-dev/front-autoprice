@@ -86,7 +86,7 @@ export function MainHt(){
                         transition-all duration-200 ease-in-out
                         focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 cursor-pointer"
             >
-                Baixar Logs
+                Baixar Log
             </button>
         </main>
     )

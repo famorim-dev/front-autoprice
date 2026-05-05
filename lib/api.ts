@@ -2,30 +2,21 @@ import axios from "axios";
 
 export const api = axios.create({ baseURL: `${process.env.NEXT_PUBLIC_API_URL}`, withCredentials: true})
 
-api.interceptors.response.use(
-  (res) => res,
-  (err) => {
-    const message =
-      err?.response?.data?.menssagem.message ||
-      "Erro desconhecido"
-
-    return Promise.reject({
-      ...err,
-      message
-    })
-  }
-)
 
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error?.response?.status
 
-      if (typeof window !== "undefined") {
-        window.location.href = "/login"
-      }
+    if (status === 401 && typeof window !== "undefined") {
+      window.location.href = "/login"
     }
 
-    return Promise.reject(error);
+    const message =
+      error?.response?.data?.mensagem ||
+      error?.response?.data?.message ||
+      "Erro desconhecido"
+
+    return Promise.reject(new Error(message))
   }
 )

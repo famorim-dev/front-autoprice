@@ -1,5 +1,5 @@
 'use client'
-import { redirect } from "next/navigation"
+import { redirect, useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { loginService } from "@/services/login"
 
@@ -7,6 +7,7 @@ export default function LoginPage(){
     async function handleForm(e: React.FormEvent<HTMLFormElement>) {
             e.preventDefault()
 
+            const router = useRouter()
             const form = new FormData(e.currentTarget)
             const email = form.get("email") as string
             const password = form.get("password") as string
@@ -14,7 +15,7 @@ export default function LoginPage(){
                 await loginService(email, password)
 
                 toast.success("Sucesso!")
-                redirect("/home")
+                router.push("/home")
 
             } catch (err) {
                 toast.error("Credenciais inválidas")

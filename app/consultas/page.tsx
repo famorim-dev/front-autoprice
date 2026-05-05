@@ -1,6 +1,7 @@
 'use client'
 
-import { Header } from "@/global/components/header"
+
+import { Header } from "@/global/components/header/header"
 import TableHome from "./components/table"
 
 export default function Consultas() {

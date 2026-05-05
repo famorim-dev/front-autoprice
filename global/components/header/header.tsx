@@ -5,7 +5,6 @@ import { logout } from "@/utils/logout"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { BiUser } from "react-icons/bi"
-import { chamaMe } from "./actions/me"
 
 export function Header(){
     const [open, setOpen] = useState<Boolean>(false)

@@ -1,5 +1,6 @@
 'use client'
-import { Header } from "@/global/components/header";
+
+import { Header } from "@/global/components/header/header";
 import { MainHt } from "./components/main";
 import { redirecionaPorCargo } from "@/utils/cargo";
 import { useRouter } from "next/navigation"

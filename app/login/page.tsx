@@ -1,13 +1,13 @@
 'use client'
-import { redirect, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import toast from "react-hot-toast"
 import { loginService } from "@/services/login"
 
 export default function LoginPage(){
+    const router = useRouter()
     async function handleForm(e: React.FormEvent<HTMLFormElement>) {
             e.preventDefault()
 
-            const router = useRouter()
             const form = new FormData(e.currentTarget)
             const email = form.get("email") as string
             const password = form.get("password") as string

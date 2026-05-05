@@ -1,11 +1,13 @@
 'use client'
 import { redirect } from "next/navigation"
 import toast from "react-hot-toast"
-import { loginAction } from "./loginAction"
 import { loginService } from "@/services/login"
 
 export default function LoginPage(){
-    async function login(form:FormData) {
+    async function handleForm(e: React.FormEvent<HTMLFormElement>) {
+            e.preventDefault()
+
+            const form = new FormData(e.currentTarget)
             const email = form.get("email") as string
             const password = form.get("password") as string
             try {
@@ -27,7 +29,7 @@ export default function LoginPage(){
                     <div className="w-full p-8 lg:w-1/2">
                         <h2 className="text-2xl font-semibold text-gray-700 text-center">PriceQlik</h2>
                         <p className="text-xl text-gray-600 text-center">Bem-vindo de volta!</p>
-                        <form action={login}>
+                        <form onSubmit={handleForm}>
                             <div className="mt-4 flex items-center justify-between">
                                 <span className="border-b w-1/5 lg:w-1/4"></span>
                                 <a href="#" className="text-xs text-center text-gray-500 uppercase">faça login com e-mail</a>

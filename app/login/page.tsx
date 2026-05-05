@@ -2,20 +2,21 @@
 import { redirect } from "next/navigation"
 import toast from "react-hot-toast"
 import { loginAction } from "./loginAction"
+import { loginService } from "@/services/login"
 
 export default function LoginPage(){
     async function login(form:FormData) {
             const email = form.get("email") as string
             const password = form.get("password") as string
-            const res = await loginAction(email,password)
+            try {
+                await loginService(email, password)
 
-            if (!res.success) {
-                toast.error(res.error!)
-                return
+                toast.success("Sucesso!")
+                redirect("/home")
+
+            } catch (err) {
+                toast.error("Credenciais inválidas")
             }
-            
-            toast.success("Sucesso!")
-            redirect("/home")
     }
     return(
             <main className=" w-full min-h-screen flex items-center">

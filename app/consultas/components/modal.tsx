@@ -1,5 +1,6 @@
 'use client'
 
+import Loader from "@/global/components/loader/loader"
 import { geraExcel } from "@/services/consultas"
 import { useState } from "react"
 import toast from "react-hot-toast"
@@ -8,6 +9,7 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
   const [dataInicio, setDataInicio] = useState("")
   const [dataFim, setDataFim] = useState("")
   const [dataExtracao, setDataExtracao] = useState("")
+  const [loader, setLoader] = useState(false)
 
   const handleSubmit = async () => {
     if (!dataInicio || !dataFim) {
@@ -34,16 +36,24 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
         return
     }
     try {
+        setLoader(true)
         await geraExcel(id, dataInicio, dataFim, dataExtracao)
+        setLoader(false)
         toast.success("Arquivo gerado com sucesso!")
         onClose()
     } catch (err) {
+        setLoader(false)
         toast.error("Erro ao gerar arquivo")
     }
   }
 
   return (
     <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+      {loader && (
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-[60] rounded-2xl">
+          <Loader />
+        </div>
+      )}
       <div className="bg-white p-6 rounded-2xl shadow-xl w-[420px]">
 
         <h2 className="text-xl font-semibold text-gray-800 mb-1">

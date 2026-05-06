@@ -1,3 +1,4 @@
+import Loader from "@/global/components/loader/loader"
 import { baixarArquivoZip, buscarZip } from "@/services/baixarArquivos"
 import { useEffect, useState } from "react"
 

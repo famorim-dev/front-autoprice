@@ -25,7 +25,7 @@ export default function Dropdowns(){
 
     useEffect(() => {
         buscarZip()
-        .then(res => setArquivos(res))
+        .then(res => setArquivos([...res].reverse()))
     }, [])
 
     return(

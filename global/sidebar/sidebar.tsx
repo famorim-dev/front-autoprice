@@ -63,7 +63,7 @@ export default function Sidebar(){
                                 Home
                             </a>
                         </li>
-                        {(user?.cargo === "admin" || user?.cargo === "suporte")?(
+                        {(user?.cargo === "admin" || user?.cargo === "consultoria")?(
                             <>
                                 <li>
                                     <a href="/consultas"

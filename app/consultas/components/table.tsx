@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import toast from "react-hot-toast"
 import { FaFileExcel } from "react-icons/fa"
 import ModalConsulta from "./modal"
+import Dropdowns from "./dropdowns"
 
 
 export default function TableHom() {
@@ -62,7 +63,7 @@ export default function TableHom() {
     )}
     <div className="relative flex flex-col w-full h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
 
-      <div className="relative mx-4 mt-4 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
+      <div className="relative mx-4 mt-4 p-10 overflow-hidden text-gray-700 bg-white rounded-none bg-clip-border">
 
         <div className="flex items-center justify-between gap-8 mb-8">
           <div>
@@ -73,6 +74,7 @@ export default function TableHom() {
               Lista de Consultas
             </p>
           </div>
+          <Dropdowns/>
         </div>
 
         <div className="flex flex-col md:flex-row gap-4 items-center ">

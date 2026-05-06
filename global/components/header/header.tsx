@@ -31,7 +31,7 @@ export function Header(){
         <header>
             <nav className="flex py-2 px-4 md:px-8 bg-white border-b border-slate-300 min-h-[68px] relative z-20" aria-label="Main navigation">
                 <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4 w-full">
-                    <a href="#"
+                    <a href="/home"
                         className="min-w-9 inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
                         <span className="sr-only">Pricemet</span>
                         <img src="/logo-pricemet.png" alt="readymadeui logo" className="h-9 w-auto" />

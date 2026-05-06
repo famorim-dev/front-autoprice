@@ -34,7 +34,7 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
         return
     }
     try {
-        await geraExcel(id, dataInicio, dataFim)
+        await geraExcel(id, dataInicio, dataFim, dataExtracao)
         toast.success("Arquivo gerado com sucesso!")
         onClose()
     } catch (err) {
@@ -78,7 +78,7 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
             />
           </div>
 
-          {/* <div>
+          <div>
             <label className="text-sm text-black font-bold">
               Data de extração (opcional)
             </label>
@@ -89,7 +89,7 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
                 onChange={(e) => setDataExtracao(e.target.value)}
                 className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black"
             />
-          </div> */}
+          </div>
 
         </div>
 

@@ -7,7 +7,7 @@ export async function consultaService(): Promise<Consulta[]> {
     return res.data
 }
 
-export async function geraExcel(id:string, inicio: string, fim: string): Promise<Consulta> {
-    const res =  await api.post(`papel-categoria/${id}`, {inicio: inicio, fim: fim})
+export async function geraExcel(id:string, inicio: string, fim: string, extract: string): Promise<Consulta> {
+    const res =  await api.post(`papel-categoria/${id}`, {inicio: inicio, fim: fim, extract: extract})
     return res.data
 }

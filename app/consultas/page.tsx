@@ -3,7 +3,7 @@ import { Header } from "@/global/components/header/header"
 import TableHome from "./components/table"
 import { useEffect } from "react"
 import { redirecionaPorCargo } from "@/utils/cargo"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 
 export default function Consultas() {
   const router = useRouter()

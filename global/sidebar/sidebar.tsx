@@ -63,8 +63,8 @@ export default function Sidebar(){
                                 Home
                             </a>
                         </li>
-                        {(user?.cargo === "admin" || user?.cargo === "consultoria")?(
-                            <>
+                        {(user?.cargo === "admin" || user?.cargo === "consultor")?(
+                            
                                 <li>
                                     <a href="/consultas"
                                         className="flex items-center gap-2.5 hover:text-blue-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
@@ -77,6 +77,8 @@ export default function Sidebar(){
                                         Consultas
                                     </a>
                                 </li>
+                        ):(null)}
+                        {(user?.cargo === "admin" || user?.cargo === "suporte")?(
                                 <li>
                                     <a href="/funcionalHt"
                                         className="flex items-center gap-2.5 hover:text-blue-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded">
@@ -95,8 +97,7 @@ export default function Sidebar(){
                                         Ht
                                     </a>
                                 </li>
-                            </>
-                        ):(null)}
+                            ):(null)}
                         </ul>
                     </div>
 

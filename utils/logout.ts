@@ -1,9 +1,7 @@
-'use server'
-import { cookies } from "next/headers"
+import { api } from "@/lib/api"
 import { redirect } from "next/navigation"
 
-export async function logout(){
-        const store = await cookies()
-        store.delete({name: "token", path: '/' })
-        redirect("/login")
+export async function logout(): Promise<{mensagem: string}> {
+    await api.post('/auth/logout')
+    redirect('/login')
 }

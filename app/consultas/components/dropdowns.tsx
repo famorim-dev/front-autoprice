@@ -35,7 +35,7 @@ export default function Dropdowns() {
 
     useEffect(() => {
         buscarZip()
-            .then((res) => setArquivos([...res].reverse()))
+            .then((res) => setArquivos(res))
             .finally(() => setLoading(false))
     }, [])
 
@@ -52,7 +52,9 @@ export default function Dropdowns() {
                     transition-colors duration-200
                     hover:bg-gray-100 hover:text-gray-900
                     focus:outline-none focus:ring-2 focus:ring-blue-500/30
-                    dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white
+                    dark:text-gray-400
+                    dark:hover:bg-gray-800
+                    dark:hover:text-white
                 "
             >
                 <svg
@@ -81,21 +83,25 @@ export default function Dropdowns() {
                 </svg>
 
                 {arquivos.length > 0 && (
-                    <span className="
-                        absolute right-1 top-1
-                        flex h-2.5 w-2.5
-                        rounded-full bg-red-500
-                        ring-2 ring-white
-                        dark:ring-gray-900
-                    " />
+                    <span
+                        className="
+                            absolute right-1 top-1
+                            h-2.5 w-2.5
+                            rounded-full bg-red-500
+                            ring-2 ring-white
+                            dark:ring-gray-900
+                        "
+                    />
                 )}
             </button>
 
             {open && (
                 <div
                     className="
-                        absolute right-0 top-12 z-50
+                        fixed right-4 top-16 z-50
+                        flex max-h-[calc(100vh-80px)]
                         w-[360px] max-w-[calc(100vw-2rem)]
+                        flex-col
                         overflow-hidden
                         rounded-xl
                         border border-gray-200
@@ -105,28 +111,36 @@ export default function Dropdowns() {
                         dark:bg-gray-900
                     "
                 >
-                    <div className="
-                        flex items-center justify-between
-                        border-b border-gray-100
-                        px-4 py-3
-                        dark:border-gray-800
-                    ">
+                    <div
+                        className="
+                            flex shrink-0 items-center justify-between
+                            border-b border-gray-100
+                            px-4 py-3
+                            dark:border-gray-800
+                        "
+                    >
                         <div>
                             <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
                                 Arquivos ZIP
                             </h3>
 
                             <p className="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
-                                {arquivos.length} arquivo{arquivos.length !== 1 ? "s" : ""} disponível{arquivos.length !== 1 ? "is" : ""}
+                                {arquivos.length} arquivo
+                                {arquivos.length !== 1 ? "s" : ""} disponível
+                                {arquivos.length !== 1 ? "is" : ""}
                             </p>
                         </div>
 
-                        <div className="
-                            flex h-9 w-9 items-center justify-center
-                            rounded-lg bg-blue-50
-                            text-blue-600
-                            dark:bg-blue-500/10 dark:text-blue-400
-                        ">
+                        <div
+                            className="
+                                flex h-9 w-9 items-center justify-center
+                                rounded-lg
+                                bg-blue-50
+                                text-blue-600
+                                dark:bg-blue-500/10
+                                dark:text-blue-400
+                            "
+                        >
                             <svg
                                 className="h-5 w-5"
                                 viewBox="0 0 24 24"
@@ -147,20 +161,23 @@ export default function Dropdowns() {
                         </div>
                     </div>
 
-                    <div className="max-h-[320px] overflow-y-auto">
+                    <div className="min-h-0 flex-1 overflow-y-auto">
                         {loading ? (
                             <div className="flex items-center justify-center px-4 py-10">
                                 <Loader />
                             </div>
                         ) : arquivos.length === 0 ? (
                             <div className="flex flex-col items-center justify-center px-4 py-10 text-center">
-                                <div className="
-                                    mb-3 flex h-12 w-12
-                                    items-center justify-center
-                                    rounded-full bg-gray-100
-                                    text-gray-400
-                                    dark:bg-gray-800
-                                ">
+                                <div
+                                    className="
+                                        mb-3 flex h-12 w-12
+                                        items-center justify-center
+                                        rounded-full
+                                        bg-gray-100
+                                        text-gray-400
+                                        dark:bg-gray-800
+                                    "
+                                >
                                     <svg
                                         className="h-6 w-6"
                                         fill="none"
@@ -203,24 +220,28 @@ export default function Dropdowns() {
                                         dark:hover:bg-gray-800/60
                                     "
                                 >
-                                    <div className="
-                                        flex h-10 w-10 shrink-0
-                                        items-center justify-center
-                                        rounded-lg
-                                        bg-blue-50
-                                        text-blue-600
-                                        dark:bg-blue-500/10
-                                        dark:text-blue-400
-                                    ">
+                                    <div
+                                        className="
+                                            flex h-10 w-10 shrink-0
+                                            items-center justify-center
+                                            rounded-lg
+                                            bg-blue-50
+                                            text-blue-600
+                                            dark:bg-blue-500/10
+                                            dark:text-blue-400
+                                        "
+                                    >
                                         {baixando === item ? (
-                                            <div className="
-                                                h-5 w-5
-                                                animate-spin
-                                                rounded-full
-                                                border-2
-                                                border-blue-200
-                                                border-t-blue-600
-                                            " />
+                                            <div
+                                                className="
+                                                    h-5 w-5
+                                                    animate-spin
+                                                    rounded-full
+                                                    border-2
+                                                    border-blue-200
+                                                    border-t-blue-600
+                                                "
+                                            />
                                         ) : (
                                             <svg
                                                 className="h-5 w-5"
@@ -245,12 +266,14 @@ export default function Dropdowns() {
                                                     stroke="currentColor"
                                                     strokeWidth="1.8"
                                                     strokeLinecap="round"
+                                                    strokeLinejoin="round"
                                                     d="M9 15L12 18L15 15"
                                                 />
                                                 <path
                                                     stroke="currentColor"
                                                     strokeWidth="1.8"
                                                     strokeLinecap="round"
+                                                    strokeLinejoin="round"
                                                     d="M12 12V18"
                                                 />
                                             </svg>
@@ -270,12 +293,14 @@ export default function Dropdowns() {
                                             {item}.zip
                                         </p>
 
-                                        <p className="
-                                            mt-0.5
-                                            text-xs
-                                            text-gray-500
-                                            dark:text-gray-400
-                                        ">
+                                        <p
+                                            className="
+                                                mt-0.5
+                                                text-xs
+                                                text-gray-500
+                                                dark:text-gray-400
+                                            "
+                                        >
                                             {baixando === item
                                                 ? "Baixando..."
                                                 : "Clique para baixar"}
@@ -287,7 +312,7 @@ export default function Dropdowns() {
                                             h-4 w-4 shrink-0
                                             text-gray-400
                                             transition-transform
-                                            group-hover:translate-x-0.5
+                                            group-hover:translate-y-0.5
                                             group-hover:text-blue-500
                                         "
                                         fill="none"
@@ -307,13 +332,16 @@ export default function Dropdowns() {
                     </div>
 
                     {arquivos.length > 0 && (
-                        <div className="
-                            border-t border-gray-100
-                            bg-gray-50
-                            px-4 py-2.5
-                            dark:border-gray-800
-                            dark:bg-gray-900
-                        ">
+                        <div
+                            className="
+                                shrink-0
+                                border-t border-gray-100
+                                bg-gray-50
+                                px-4 py-2.5
+                                dark:border-gray-800
+                                dark:bg-gray-900
+                            "
+                        >
                             <button
                                 type="button"
                                 className="

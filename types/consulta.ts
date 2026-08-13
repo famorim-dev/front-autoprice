@@ -5,4 +5,5 @@ export interface Consulta{
     status: string
     categoria: string
     cliente: string
+    date: boolean
 }

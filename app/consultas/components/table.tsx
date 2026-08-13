@@ -14,6 +14,7 @@ export default function TableHom() {
   const [searchName, setSearchName] = useState("")
   const [searchClient, setSearchClient] = useState("")
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [seletedData, setSelectedData] = useState<boolean>()
   const [selectedId, setSelectedId] = useState("")
   const [selectedNome, setSelectedNome] = useState("")
   const [selectedCliente, setSelectedCliente] = useState("")
@@ -33,10 +34,11 @@ export default function TableHom() {
     return matchName && matchClient
   })
 
-  const handleOpenModal = (id: string, nome:string, cliente :string) => {
+  const handleOpenModal = (id: string, nome:string, cliente :string, date: boolean) => {
     setSelectedId(id)
     setSelectedNome(nome)
     setSelectedCliente(cliente)
+    setSelectedData(date)
     setIsModalOpen(true)
   }
   
@@ -58,6 +60,7 @@ export default function TableHom() {
             id={selectedId}
             nome={selectedNome}
             cliente={selectedCliente}
+            data={seletedData}
             onClose={() => setIsModalOpen(false)}
         />
     )}
@@ -162,7 +165,7 @@ export default function TableHom() {
                   </td>
                   <td className="p-4 border-b border-blue-gray-50">
                     <button 
-                    onClick={() => handleOpenModal(item.id, item.nome, item.cliente)}
+                    onClick={() => handleOpenModal(item.id, item.nome, item.cliente, item.date)}
                     className="flex items-center gap-2 cursor-pointer font-bold border-2 border-gray-400 p-2 rounded-xl transition-all duration-200 hover:bg-green-600 hover:text-white hover:border-green-600 hover:shadow-lg hover:-translate-y-0.5">
                         Gerar Excel
                         <FaFileExcel />

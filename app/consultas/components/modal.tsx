@@ -5,7 +5,7 @@ import { geraExcel } from "@/services/consultas"
 import { useState } from "react"
 import toast from "react-hot-toast"
 
-export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
+export default function ModalConsulta({ id, nome, cliente, data, onClose }: any) {
   const [dataInicio, setDataInicio] = useState("")
   const [dataFim, setDataFim] = useState("")
   const [dataExtracao, setDataExtracao] = useState("")
@@ -13,37 +13,37 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
 
   const handleSubmit = async () => {
     if (!dataInicio || !dataFim) {
-        toast.error("Preencha data de início e fim")
-        return
+      toast.error("Preencha data de início e fim")
+      return
     }
 
     const inicio = new Date(dataInicio)
     const fim = new Date(dataFim)
 
     const diffMeses =
-        (fim.getFullYear() - inicio.getFullYear()) * 12 +
-        (fim.getMonth() - inicio.getMonth())
+      (fim.getFullYear() - inicio.getFullYear()) * 12 +
+      (fim.getMonth() - inicio.getMonth())
 
     if (diffMeses > 6) {
-        toast.error("O intervalo não pode ultrapassar 6 meses")
-        return
+      toast.error("O intervalo não pode ultrapassar 6 meses")
+      return
     }
 
     const isValidMonth = /^\d{4}-(0[1-9]|1[0-2])$/.test(dataExtracao)
 
     if (dataExtracao && !isValidMonth) {
-        toast.error("Digite somente ano e mês no formato 2020-09")
-        return
+      toast.error("Digite somente ano e mês no formato 2020-09")
+      return
     }
     try {
-        setLoader(true)
-        await geraExcel(id, dataInicio, dataFim, dataExtracao)
-        setLoader(false)
-        toast.success("Arquivo gerado com sucesso!")
-        onClose()
+      setLoader(true)
+      await geraExcel(id, dataInicio, dataFim, dataExtracao)
+      setLoader(false)
+      toast.success("Arquivo gerado com sucesso!")
+      onClose()
     } catch (err) {
-        setLoader(false)
-        toast.error("Erro ao gerar arquivo")
+      setLoader(false)
+      toast.error("Erro ao gerar arquivo")
     }
   }
 
@@ -61,47 +61,48 @@ export default function ModalConsulta({ id, nome, cliente, onClose }: any) {
         </h2>
 
         <p className="text-sm text-gray-500 mb-4 font-semibold">
-            Você está prestes a gerar um arquivo ZIP contendo o Excel referente ao cliente{" "}
-            <span className="text-green-600 font-bold">{cliente}</span>, utilizando os dados da consulta{" "}
-            <span className="text-blue-600 font-bold">{nome}</span>.
+          Você está prestes a gerar um arquivo ZIP contendo o Excel referente ao cliente{" "}
+          <span className="text-green-600 font-bold">{cliente}</span>, utilizando os dados da consulta{" "}
+          <span className="text-blue-600 font-bold">{nome}</span>.
         </p>
+        {data === true && (
+          <div className="flex flex-col gap-4">
 
-        <div className="flex flex-col gap-4">
+            <div>
+              <label className="text-sm text-black font-bold">Data início</label>
+              <input
+                type="date"
+                value={dataInicio}
+                onChange={(e) => setDataInicio(e.target.value)}
+                className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
 
-          <div>
-            <label className="text-sm text-black font-bold">Data início</label>
-            <input
-              type="date"
-              value={dataInicio}
-              onChange={(e) => setDataInicio(e.target.value)}
-              className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
+            <div>
+              <label className="text-sm text-black font-bold">Data fim</label>
+              <input
+                type="date"
+                value={dataFim}
+                onChange={(e) => setDataFim(e.target.value)}
+                className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
 
-          <div>
-            <label className="text-sm text-black font-bold">Data fim</label>
-            <input
-              type="date"
-              value={dataFim}
-              onChange={(e) => setDataFim(e.target.value)}
-              className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black focus:outline-none focus:ring-2 focus:ring-green-500"
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-black font-bold">
-              Data de extração (opcional)
-            </label>
-            <input
+            <div>
+              <label className="text-sm text-black font-bold">
+                Data de extração (opcional)
+              </label>
+              <input
                 type="text"
                 placeholder="YYYY-MM"
                 value={dataExtracao}
                 onChange={(e) => setDataExtracao(e.target.value)}
                 className="w-full mt-1 border border-gray-300 rounded-lg px-3 py-2 font-bold text-black"
-            />
-          </div>
+              />
+            </div>
 
-        </div>
+          </div>
+        )}
 
         <div className="flex justify-end gap-3 mt-6">
 

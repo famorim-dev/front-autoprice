@@ -12,10 +12,6 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
   const [loader, setLoader] = useState(false)
 
   const handleSubmit = async () => {
-    if (!dataInicio || !dataFim) {
-      toast.error("Preencha data de início e fim")
-      return
-    }
 
     const inicio = new Date(dataInicio)
     const fim = new Date(dataFim)

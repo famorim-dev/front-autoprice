@@ -20,7 +20,7 @@ export default function TableHom() {
   const [selectedCliente, setSelectedCliente] = useState("")
   const [page, setPage] = useState(1)
 
-  const itemsPerPage = 10
+  const itemsPerPage = 5
 
   useEffect(() => {
     consultaService()
@@ -139,8 +139,8 @@ export default function TableHom() {
           </thead>
 
           <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((item: Consulta) => (
+            {paginatedData.length > 0 ? (
+              paginatedData.map((item: Consulta) => (
                 <tr key={item.id}>
 
                   <td className="p-4 border-b border-blue-gray-50">

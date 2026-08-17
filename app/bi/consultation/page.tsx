@@ -3,8 +3,8 @@ import { Header } from "@/global/components/header/header"
 import { useEffect } from "react"
 import { redirecionaPorCargo } from "@/utils/cargo"
 import { useRouter } from "next/navigation"
+import Table from "../components/table"
 import Sidebar from "@/global/sidebar/sidebar"
-import FileList from "./components/fileList"
 
 export default function Consultas() {
   const router = useRouter()
@@ -24,13 +24,9 @@ export default function Consultas() {
     <div>
       <Sidebar />
       <Header />
-            <main className="ml-[264px] min-h-screen">
-                <div className="flex justify-center px-8 py-10">
-                    <div className="w-full max-w-2xl">
-                        <FileList />
-                    </div>
-                </div>
-            </main>
+      <main className="ml-[264px]">
+        <Table />
+      </main>
     </div>
   )
 }

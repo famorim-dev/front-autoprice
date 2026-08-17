@@ -1,37 +1,108 @@
 "use client"
 
 import { AgGridReact } from "ag-grid-react";
-import { useState } from "react";
-import type { ColDef } from "ag-grid-community";
-import type { FilterModel } from "ag-grid-community"
+
+import {
+    AllCommunityModule,
+    ModuleRegistry,
+    type ColDef,
+    type FilterChangedEvent,
+} from "ag-grid-community";
+
+import { themeBalham } from "ag-grid-community";
+
+import { useEffect, useState } from "react";
+
+import { data } from "@/services/bi";
 
 import "ag-grid-community/styles/ag-theme-alpine.css";
+import { toast } from "sonner";
 
+ModuleRegistry.registerModules([AllCommunityModule])
 
 export default function Table() {
-    const [loading, setLoading] = useState(false)
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([])
+    const [rowData, setRowData] = useState<any[]>([])
+
+    const fileName = "loja_2026_08_14_13_35_29.zip"
+
+    async function loadData(
+        column: string = "",
+        value: string = ""
+    ) {
+        try {
+            const response = await data(
+                fileName,
+                column,
+                value
+            )
+
+            setRowData(response)
+
+            if (response.length > 0 && columnDefs.length === 0) {
+                const columns: ColDef[] = Object.keys(response[0]).map(
+                    (column) => ({
+                        field: column,
+                        headerName: column,
+
+                        filter: "agTextColumnFilter",
+
+                        floatingFilter: true,
+                    })
+                )
+
+                setColumnDefs(columns)
+            }
+        } catch (error) {
+            toast.error("Erro ao buscar dados")
+        }
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    function handleFilterChanged(event: FilterChangedEvent) {
+        const filterModel = event.api.getFilterModel()
+
+        const columns = Object.keys(filterModel)
+
+        if (columns.length === 0) {
+            loadData()
+            return
+        }
+
+        const column = columns[0]
+
+        const filter = filterModel[column]
+
+        const value = filter?.filter ?? ""
+
+        loadData(column, value)
+    }
 
     return (
-        <main className="flex justify-center items-center w-full h-full">
+        <main className="w-full h-screen flex justify-center">
+            <div className="w-[90%] h-[90%] mt-5">
 
-            <div className="w-[90%] h-[90%]">
                 <AgGridReact
-                    className="ag-theme-alpine"
+                    theme={themeBalham}
+
                     columnDefs={columnDefs}
-                    datasource={}
-                    rowModelType="infinite"
-                    cacheBlockSize={50}
-                    paginationPageSize={50}
+                    rowData={rowData}
+
+                    pagination={true}
+
+                    onFilterChanged={handleFilterChanged}
+
                     defaultColDef={{
                         flex: 1,
                         minWidth: 120,
-                        filter: true,
-                        floatingFilter: true,
                         sortable: true,
                     }}
                 />
+
             </div>
         </main>
-    );
+    )
 }

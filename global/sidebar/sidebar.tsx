@@ -25,7 +25,7 @@ export default function Sidebar(){
             <nav className="h-full" aria-label="Primary sidebar navigation">
                 <div className="relative flex flex-col h-full">
 
-                    <div className="flex flex-wrap items-center gap-4 relative">
+                {/*<div className="flex flex-wrap items-center gap-4 relative">
                         <div className="flex flex-wrap items-center gap-2 flex-1">
                         <img src="https://readymadeui.com/logo-alt.svg" className="w-8 h-8" alt="company logo" />
                         <div className="text-base text-slate-600 font-semibold">
@@ -41,7 +41,7 @@ export default function Sidebar(){
                                 clip-rule="evenodd" data-original="#000000" />
                         </svg>
                         </button>
-                    </div>
+                    </div> */}
 
                     <hr className="my-6 border-slate-300" />
 

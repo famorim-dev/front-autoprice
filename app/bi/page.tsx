@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import { redirecionaPorCargo } from "@/utils/cargo"
 import { useRouter } from "next/navigation"
 import Table from "./components/table"
+import Sidebar from "@/global/sidebar/sidebar"
 
 export default function Consultas() {
   const router = useRouter()
@@ -21,9 +22,10 @@ export default function Consultas() {
   }, [])
   return (
     <div>
-      <Header/>
-      <main >
-        <Table/>
+      <Sidebar />
+      <Header />
+      <main className="ml-[264px]">
+        <Table />
       </main>
     </div>
   )

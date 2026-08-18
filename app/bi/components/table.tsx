@@ -53,7 +53,6 @@ function TableContent() {
                         headerName: column,
 
                         filter: "agTextColumnFilter",
-
                         floatingFilter: true,
                     })
                 )
@@ -103,7 +102,6 @@ function TableContent() {
                     onFilterChanged={handleFilterChanged}
 
                     defaultColDef={{
-                        flex: 1,
                         minWidth: 120,
                         sortable: true,
                     }}

@@ -1,16 +1,21 @@
 "use client"
 
 import { buscarZip } from "@/services/baixarArquivos"
+import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 
 export default function FileList() {
-
+    const route = useRouter()
     const [files, setFiles] = useState<string[]>()
 
     useEffect(() => {
         buscarZip()
             .then(setFiles)
     },[])
+
+    const handleclick = (file: string) => {
+        route.push(`bi/consultation?file=${encodeURIComponent(file)}`)
+    }
 
     return (
         <section className="w-full h-[600px] flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
@@ -41,6 +46,7 @@ export default function FileList() {
                     <button
                         key={file}
                         type="button"
+                        onClick={() => handleclick(file)}
                         className="
                             w-full
                             flex

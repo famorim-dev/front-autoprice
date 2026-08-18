@@ -17,6 +17,7 @@ import { data } from "@/services/bi";
 
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { toast } from "sonner";
+import { useRouter, useSearchParams } from "next/navigation";
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
@@ -24,15 +25,21 @@ export default function Table() {
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([])
     const [rowData, setRowData] = useState<any[]>([])
 
-    const fileName = "loja_2026_08_14_13_35_29.zip"
+    const route = useRouter()
+    const searchParams = useSearchParams()
+    const file = searchParams.get("file")
 
     async function loadData(
         column: string = "",
         value: string = ""
     ) {
         try {
+            if(!file){
+                return route.push(`/bi`)
+            }
+
             const response = await data(
-                fileName,
+                file,
                 column,
                 value
             )

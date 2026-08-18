@@ -18,12 +18,14 @@ import { data } from "@/services/bi";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
+import Loader from "@/global/components/loader/loader";
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
 function TableContent() {
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([])
     const [rowData, setRowData] = useState<any[]>([])
+    const [loading, setLoading] = useState(false)
 
     const route = useRouter()
     const searchParams = useSearchParams()
@@ -34,9 +36,11 @@ function TableContent() {
         value: string = ""
     ) {
         try {
-            if(!file){
+            if (!file) {
                 return route.push(`/bi`)
             }
+
+            setLoading(true)
 
             const response = await data(
                 file,
@@ -61,6 +65,8 @@ function TableContent() {
             }
         } catch (error) {
             toast.error("Erro ao buscar dados")
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -89,6 +95,11 @@ function TableContent() {
 
     return (
         <main className="w-full h-screen flex justify-center">
+            {loading && (
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-[60] rounded-2xl">
+                    <Loader />
+                </div>
+            )}
             <div className="w-[90%] h-[90%] mt-5">
 
                 <AgGridReact

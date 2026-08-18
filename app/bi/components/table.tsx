@@ -11,7 +11,7 @@ import {
 
 import { themeBalham } from "ag-grid-community";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 
 import { data } from "@/services/bi";
 
@@ -21,7 +21,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
-export default function Table() {
+function TableContent() {
     const [columnDefs, setColumnDefs] = useState<ColDef[]>([])
     const [rowData, setRowData] = useState<any[]>([])
 
@@ -111,5 +111,13 @@ export default function Table() {
 
             </div>
         </main>
+    )
+}
+
+export default function Table() {
+    return (
+        <Suspense fallback={<div>Carregando tabela...</div>}>
+            <TableContent />
+        </Suspense>
     )
 }

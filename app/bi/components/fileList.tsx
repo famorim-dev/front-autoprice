@@ -11,12 +11,44 @@ export default function FileList() {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
         buscarZip()
-            .then(setFiles)
-            .finally(() => {
-                setLoading(false)
+            .then((file) => {
+                const order = [...file].sort((a, b) => {
+                    const regex =
+                        /-(\d{2})-(\d{2})-(\d{4})_(\d{2})-(\d{2})-(\d{2})\.zip$/i
+
+                    const matchA = a.match(regex)
+                    const matchB = b.match(regex)
+
+                    if (!matchA || !matchB) return 0
+
+                    const [, diaA, mesA, anoA, horaA, minutoA, segundoA] = matchA
+                    const [, diaB, mesB, anoB, horaB, minutoB, segundoB] = matchB
+
+                    const dataA = new Date(
+                        Number(anoA),
+                        Number(mesA) - 1,
+                        Number(diaA),
+                        Number(horaA),
+                        Number(minutoA),
+                        Number(segundoA)
+                    ).getTime()
+
+                    const dataB = new Date(
+                        Number(anoB),
+                        Number(mesB) - 1,
+                        Number(diaB),
+                        Number(horaB),
+                        Number(minutoB),
+                        Number(segundoB)
+                    ).getTime()
+
+                    return dataB - dataA
+                })
+
+                setFiles(order)
             })
+            .finally(() => setLoading(false))
     }, [])
 
     const handleclick = (file: string) => {

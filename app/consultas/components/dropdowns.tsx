@@ -1,6 +1,7 @@
 import Loader from "@/global/components/loader/loader"
 import { baixarArquivoZip, buscarZip } from "@/services/baixarArquivos"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 
 export default function Dropdowns() {
     const [open, setOpen] = useState(false)
@@ -10,7 +11,42 @@ export default function Dropdowns() {
 
     useEffect(() => {
         buscarZip()
-            .then(setArquivos)
+            .then((file) => {
+                const order = [...file].sort((a, b) => {
+                    const regex =
+                        /-(\d{2})-(\d{2})-(\d{4})_(\d{2})-(\d{2})-(\d{2})\.zip$/i
+
+                    const matchA = a.match(regex)
+                    const matchB = b.match(regex)
+
+                    if (!matchA || !matchB) return 0
+
+                    const [, diaA, mesA, anoA, horaA, minutoA, segundoA] = matchA
+                    const [, diaB, mesB, anoB, horaB, minutoB, segundoB] = matchB
+
+                    const dataA = new Date(
+                        Number(anoA),
+                        Number(mesA) - 1,
+                        Number(diaA),
+                        Number(horaA),
+                        Number(minutoA),
+                        Number(segundoA)
+                    ).getTime()
+
+                    const dataB = new Date(
+                        Number(anoB),
+                        Number(mesB) - 1,
+                        Number(diaB),
+                        Number(horaB),
+                        Number(minutoB),
+                        Number(segundoB)
+                    ).getTime()
+
+                    return dataB - dataA
+                })
+
+                setArquivos(order)
+            })
             .finally(() => setLoading(false))
     }, [])
 
@@ -31,7 +67,7 @@ export default function Dropdowns() {
 
             window.URL.revokeObjectURL(url)
         } catch (error) {
-            console.error("Erro ao baixar arquivo:", error)
+            toast.error("Erro ao baixar arquivo")
         } finally {
             setBaixando(null)
         }

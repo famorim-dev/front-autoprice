@@ -40,6 +40,7 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
       toast.success("Arquivo gerado com sucesso!")
       onClose()
     } catch (err: unknown) {
+      setLoader(false)
       toast.error(
           (err as any)?.message ||
           'Ocorreu um erro inesperado'

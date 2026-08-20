@@ -13,7 +13,7 @@ api.interceptors.response.use(
     }
 
     const message =
-      error?.response?.data?.mensagem ||
+      error?.response?.data?.menssagem?.message ||
       error?.response?.data?.message ||
       "Erro desconhecido"
 

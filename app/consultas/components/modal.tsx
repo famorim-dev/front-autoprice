@@ -2,7 +2,9 @@
 
 import Loader from "@/global/components/loader/loader"
 import { geraExcel } from "@/services/consultas"
+import { error } from "console"
 import { useState } from "react"
+import axios from "axios"
 import toast from "react-hot-toast"
 
 export default function ModalConsulta({ id, nome, cliente, data, onClose }: any) {
@@ -37,9 +39,11 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
       setLoader(false)
       toast.success("Arquivo gerado com sucesso!")
       onClose()
-    } catch (err) {
-      setLoader(false)
-      toast.error("Erro ao gerar arquivo")
+    } catch (err: unknown) {
+      toast.error(
+          (err as any)?.message ||
+          'Ocorreu um erro inesperado'
+      )
     }
   }
 

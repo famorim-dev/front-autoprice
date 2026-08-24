@@ -55,14 +55,14 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
       )}
       <div className="bg-white p-6 rounded-2xl shadow-xl w-[420px]">
 
-        <h2 className="text-xl font-semibold text-gray-800 mb-1">
+        <h2 className="text-xl font-semibold text-foreground mb-1">
           Gerar Excel
         </h2>
 
-        <p className="text-sm text-gray-500 mb-4 font-semibold">
+        <p className="text-sm text-muted mb-4 font-semibold">
           Você está prestes a gerar um arquivo ZIP contendo o Excel referente ao cliente{" "}
-          <span className="text-green-600 font-bold">{cliente}</span>, utilizando os dados da consulta{" "}
-          <span className="text-blue-600 font-bold">{nome}</span>.
+          <span className="text-foreground font-bold">{cliente}</span>, utilizando os dados da consulta{" "}
+          <span className="text-foreground font-bold">{nome}</span>.
         </p>
         {data === true && (
           <div className="flex flex-col gap-4">
@@ -107,14 +107,14 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
 
           <button
             onClick={onClose}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition cursor-pointer"
+            className="px-4 py-2 rounded-lg border border-gray-300 text-foreground font-medium hover:bg-gray-100 transition cursor-pointer"
           >
             Cancelar
           </button>
 
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 rounded-lg bg-green-600 text-white font-medium hover:bg-green-700 transition cursor-pointer"
+            className="px-4 py-2 rounded-lg bg-primary text-white font-medium hover:bg-primary-hover transition cursor-pointer"
           >
             Gerar
           </button>

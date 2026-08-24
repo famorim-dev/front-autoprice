@@ -2,9 +2,7 @@
 
 import Loader from "@/global/components/loader/loader"
 import { geraExcel } from "@/services/consultas"
-import { error } from "console"
 import { useState } from "react"
-import axios from "axios"
 import toast from "react-hot-toast"
 
 export default function ModalConsulta({ id, nome, cliente, data, onClose }: any) {

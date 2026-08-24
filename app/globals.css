@@ -1,26 +1,79 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background */
+  --background: #f8fafc;
+  --surface: #ffffff;
+
+  /* Text */
+  --foreground: #172033;
+  --muted: #64748b;
+
+  /* Border */
+  --border: #e2e8f0;
+
+  /* Primary */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-active: #1e40af;
+  --primary-foreground: #ffffff;
+
+  /* Success */
+  --success: #22c55e;
+  --success-hover: #16a34a;
+  --success-background: #f0fdf4;
+  --success-foreground: #166534;
+
+  /* Warning */
+  --warning: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-background: #fffbeb;
+  --warning-foreground: #92400e;
+
+  /* Error */
+  --error: #ef4444;
+  --error-hover: #dc2626;
+  --error-background: #fef2f2;
+  --error-foreground: #991b1b;
 }
+
 
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--surface);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #8b8989be;
-    --foreground: #ededed;
-  }
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+
+  --color-border: var(--border);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-active: var(--primary-active);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-success-background: var(--success-background);
+  --color-success-foreground: var(--success-foreground);
+
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-warning-background: var(--warning-background);
+  --color-warning-foreground: var(--warning-foreground);
+
+  --color-error: var(--error);
+  --color-error-hover: var(--error-hover);
+  --color-error-background: var(--error-background);
+  --color-error-foreground: var(--error-foreground);
+
+  /* Font */
+  --font-sans: var(--font-nunito);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito);
 }

@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const nunito = Nunito({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  variable: "--font-nunito",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
   title: "AutoPrice",
   description: "Automações da Pricemet",
-};
+}
 
 export default function RootLayout({
   children,
@@ -24,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR"className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+    <html lang="pt-BR"className={`${nunito.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">{children}<Toaster position="top-right" /></body>
     </html>
   );

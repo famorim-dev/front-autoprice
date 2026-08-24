@@ -82,15 +82,15 @@ export default function Dropdowns() {
                 aria-label="Abrir lista de arquivos"
                 className="
                     relative flex h-10 w-10 items-center justify-center
-                    rounded-xl text-slate-500
+                    rounded-xl text-muted
                     transition-all duration-200
-                    hover:bg-slate-100 hover:text-slate-900
-                    active:scale-95
+                    hover:bg-slate-100 hover:text-foreground
+                    active:scale-95 cursor-pointer
                     focus:outline-none focus:ring-2 focus:ring-slate-300
                 "
             >
                 <svg
-                    className="h-5 w-5"
+                    className="h-6 w-6"
                     viewBox="0 0 24 24"
                     fill="none"
                     aria-hidden="true"
@@ -144,11 +144,11 @@ export default function Dropdowns() {
                             <div
                                 className="
                                     flex h-10 w-10 shrink-0 items-center justify-center
-                                    rounded-xl bg-slate-100 text-slate-700
+                                    rounded-xl bg-slate-100 text-foreground
                                 "
                             >
                                 <svg
-                                    className="h-5 w-5"
+                                    className="h-6 w-6 text-muted"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                 >
@@ -166,14 +166,14 @@ export default function Dropdowns() {
                             </div>
 
                             <div className="min-w-0">
-                                <h3 className="text-sm font-semibold text-slate-900">
+                                <h3 className="text-sm font-semibold text-foreground">
                                     Arquivos ZIP
                                 </h3>
 
-                                <p className="mt-0.5 text-xs text-slate-500">
+                                <p className="mt-0.5 text-xs text-muted font-semibold">
                                     {loading
                                         ? "Carregando arquivos..."
-                                        : `${arquivos.length} arquivo${arquivos.length !== 1 ? "s" : ""} disponível${arquivos.length !== 1 ? "eis" : ""}`}
+                                        : `${arquivos.length} arquivo${arquivos.length !== 1 ? "s" : ""} disponível`}
                                 </p>
                             </div>
                         </div>
@@ -183,11 +183,13 @@ export default function Dropdowns() {
                             onClick={() => setOpen(false)}
                             aria-label="Fechar"
                             className="
-                                flex h-8 w-8 shrink-0 items-center justify-center
-                                rounded-lg text-slate-400
-                                transition-all
-                                hover:bg-slate-100 hover:text-slate-900
-                                active:scale-95
+                                rounded-lg
+                                cursor-pointer
+                                p-2
+                                text-muted
+                                transition-colors
+                                hover:bg-error-background
+                                hover:text-error
                             "
                         >
                             <svg
@@ -248,11 +250,11 @@ export default function Dropdowns() {
                                     </svg>
                                 </div>
 
-                                <p className="text-sm font-semibold text-slate-900">
+                                <p className="text-sm font-semibold text-foreground">
                                     Nenhum arquivo disponível
                                 </p>
 
-                                <p className="mt-1 max-w-[240px] text-xs leading-5 text-slate-500">
+                                <p className="mt-1 max-w-[240px] text-xs leading-5 text-muted">
                                     Os arquivos ZIP disponíveis para download aparecerão aqui.
                                 </p>
                             </div>
@@ -269,7 +271,8 @@ export default function Dropdowns() {
                                             onClick={() => handleBaixarZip(item)}
                                             className="
                                                 group flex w-full items-center gap-3
-                                                rounded-xl p-2.5 text-left
+                                                rounded-xl p-2.5 text-left m-2
+                                                border border-border
                                                 transition-all duration-200
                                                 hover:bg-slate-100
                                                 active:scale-[0.99]
@@ -283,8 +286,8 @@ export default function Dropdowns() {
                                                     rounded-xl transition-colors
                                                     ${
                                                         isDownloading
-                                                            ? "bg-slate-200 text-slate-700"
-                                                            : "bg-slate-100 text-slate-500 group-hover:bg-slate-200 group-hover:text-slate-800"
+                                                            ? "bg-primary text-surface"
+                                                            : "bg-primary/20 text-primary group-hover:bg-primary group-hover:text-surface"
                                                     }
                                                 `}
                                             >
@@ -293,7 +296,7 @@ export default function Dropdowns() {
                                                         className="
                                                             h-5 w-5 animate-spin rounded-full
                                                             border-2 border-slate-300
-                                                            border-t-slate-700
+                                                            border-t-primary
                                                         "
                                                     />
                                                 ) : (
@@ -324,7 +327,7 @@ export default function Dropdowns() {
                                                     title={`${item}.zip`}
                                                     className="
                                                         truncate text-sm font-medium
-                                                        text-slate-800
+                                                        text-foreground
                                                     "
                                                 >
                                                     {item}.zip
@@ -332,8 +335,8 @@ export default function Dropdowns() {
 
                                                 <p
                                                     className="
-                                                        mt-0.5 truncate text-xs
-                                                        text-slate-400
+                                                        mt-0.5 truncate text-xs font-bold
+                                                        text-muted
                                                     "
                                                 >
                                                     {isDownloading
@@ -374,11 +377,11 @@ export default function Dropdowns() {
                         <div
                             className="
                                 flex shrink-0 items-center justify-between
-                                border-t border-slate-200
+                                border-t border-slate-300
                                 bg-white px-4 py-2.5
                             "
                         >
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs text-muted font-semibold">
                                 {arquivos.length} arquivo{arquivos.length !== 1 ? "s" : ""}
                             </span>
 
@@ -387,9 +390,10 @@ export default function Dropdowns() {
                                 onClick={() => setOpen(false)}
                                 className="
                                     rounded-lg px-3 py-1.5
-                                    text-xs font-medium text-slate-500
-                                    transition-colors
-                                    hover:bg-slate-100 hover:text-slate-900
+                                    text-xs font-bold text-muted
+                                    cursor-pointer
+                                    transition-all duration-300
+                                    hover:-translate-y-0.5
                                 "
                             >
                                 Fechar

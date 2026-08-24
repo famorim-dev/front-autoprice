@@ -93,8 +93,23 @@ export default function TableHom() {
             <input
               value={searchName}
               onChange={(e) => setSearchName(e.target.value)}
-              className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 !pr-9 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
-              placeholder="Pesquisar nome"
+                className="  
+                    peer h-full w-full
+                    rounded-[7px]
+                    border border-border
+                    bg-transparent
+                    px-3 py-2.5
+                    font-sans text-sm font-normal
+                    text-foreground
+                    outline-0
+                    transition-all duration-200
+                    placeholder:text-muted
+                    focus:border-2
+                    focus:outline-0
+                    disabled:border-0
+                    disabled:bg-background
+                  "              
+                  placeholder="Pesquisar nome"
             />
           </div>
             <div className="relative h-10 w-full md:w-72 min-w-[200px]">
@@ -108,7 +123,22 @@ export default function TableHom() {
                 <input
                 value={searchClient}
                 onChange={(e) => setSearchClient(e.target.value)}
-                className="peer h-full w-full rounded-[7px] border border-blue-gray-200 border-t-transparent bg-transparent px-3 py-2.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
+                className="  
+                    peer h-full w-full
+                    rounded-[7px]
+                    border border-border
+                    bg-transparent
+                    px-3 py-2.5
+                    font-sans text-sm font-normal
+                    text-foreground
+                    outline-0
+                    transition-all duration-200
+                    placeholder:text-muted
+                    focus:border-2
+                    focus:outline-0
+                    disabled:border-0
+                    disabled:bg-background
+                  "
                 placeholder="Pesquisar cliente"
                 />
 
@@ -118,21 +148,21 @@ export default function TableHom() {
 
       <div className="p-6 px-0 overflow-scroll">
         <table className="w-full mt-4 text-left table-auto min-w-max">
-          <thead>
+          <thead className="border-y border-foreground/40 bg-blue-gray-50/50">
             <tr>
-              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+              <th className="p-4 ">
                 Consulta
               </th>
-              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+              <th className="p-4 ">
                 Cliente
               </th>
-              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+              <th className="p-4 ">
                 Status
               </th>
-              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+              <th className="p-4 ">
                 Criado
               </th>
-              <th className="p-4 border-y border-blue-gray-100 bg-blue-gray-50/50">
+              <th className="p-4 ">
                 Excel
               </th>
             </tr>
@@ -141,33 +171,33 @@ export default function TableHom() {
           <tbody>
             {paginatedData.length > 0 ? (
               paginatedData.map((item: Consulta) => (
-                <tr key={item.id}>
+                <tr key={item.id} className="font-medium border-b border-border">
 
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 ">
                     <div className="flex flex-col">
                       <p className="text-sm">{item.categoria}</p>
                       <p className="text-sm opacity-70">{item.nome}</p>
                     </div>
                   </td>
 
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 ">
                     {item.cliente}
                   </td>
 
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 ">
                     <span className="text-xs font-bold text-green-600 bg-green-500/20 px-2 py-1 rounded-md">
                       {item.status}
                     </span>
                   </td>
 
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 ">
                     {new Date(item.criado).toLocaleDateString('pt-BR')}
                   </td>
-                  <td className="p-4 border-b border-blue-gray-50">
+                  <td className="p-4 border-b border-border">
                     <button 
                     onClick={() => handleOpenModal(item.id, item.nome, item.cliente, item.date)}
-                    className="flex items-center gap-2 cursor-pointer font-bold border-2 border-gray-400 p-2 rounded-xl transition-all duration-200 hover:bg-green-600 hover:text-white hover:border-green-600 hover:shadow-lg hover:-translate-y-0.5">
-                        Gerar Excel
+                    className="flex items-center gap-2 cursor-pointer font-bold border border-border bg-primary-active p-2 rounded-xl transition-all duration-200 hover:bg-primary-hover text-white hover:shadow-lg hover:-translate-y-0.5">
+                        Excel
                         <FaFileExcel />
                     </button>
                   </td>
@@ -188,7 +218,7 @@ export default function TableHom() {
           <button
             onClick={() => setPage(p => Math.max(p - 1, 1))}
             disabled={page === 1}
-            className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+            className="font-semibold px-3 py-1 border border-border rounded disabled:opacity-50 cursor-pointer"
           >
             Anterior
           </button>
@@ -200,7 +230,7 @@ export default function TableHom() {
           <button
             onClick={() => setPage(p => Math.min(p + 1, totalPages))}
             disabled={page >= totalPages}
-            className="px-3 py-1 border rounded disabled:opacity-50 cursor-pointer"
+            className="font-semibold px-3 py-1 border border-border rounded disabled:opacity-50 cursor-pointer"
           >
             Próxima
           </button>

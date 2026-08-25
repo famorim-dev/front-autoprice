@@ -89,11 +89,14 @@ export function Header(){
 
                         </section>
                             {open && (
-                                <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg border">
+                                <div className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg">
                                     <ul className="text-sm">
                                         {/* <li className="p-2 text-gray-700 font-semibold cursor-pointer">Perfil</li>
                                         <li className="p-2 text-gray-700 font-semibold cursor-pointer">Configurações</li> */}
-                                        <li onClick={() => handleDesconnect()} className="block w-full px-3 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-50 ltr:text-left rtl:text-right dark:text-gray-700 dark:hover:bg-red-700/20 cursor-pointer">Sair</li>
+                                        {(user?.cargo === "consultor" || user?.cargo === "admin") &&(
+                                            <li onClick={() => window.location.href = "/consultas/status"} className="block w-full px-3 py-2 text-sm font-medium transition-colors border-b border-border cursor-pointer">Status</li>
+                                        )}
+                                        <li onClick={() => handleDesconnect()} className="block w-full px-3 py-2 text-sm font-medium hover:text-error transition-colors cursor-pointer">Sair</li>
                                     </ul>
                                 </div>
                             )}

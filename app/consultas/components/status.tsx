@@ -26,7 +26,7 @@ const STATUS_DOT: Record<string, string> = {
     delayed: "bg-orange-500",
 }
 
-const ITENS_POR_PAGINA = 10
+const ITENS_POR_PAGINA = 7
 
 export default function Status() {
     const [status, setStatus] = useState<StatusType[]>([])

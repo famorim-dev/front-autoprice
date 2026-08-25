@@ -33,9 +33,9 @@ export default function ModalConsulta({ id, nome, cliente, data, onClose }: any)
     }
     try {
       setLoader(true)
-      await geraExcel(id, dataInicio, dataFim, dataExtracao)
+      const res = await geraExcel(id, dataInicio, dataFim, dataExtracao)
       setLoader(false)
-      toast.success("Arquivo gerado com sucesso!")
+      toast.success(res.message)
       onClose()
     } catch (err: unknown) {
       setLoader(false)

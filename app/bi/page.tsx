@@ -24,7 +24,7 @@ export default function Consultas() {
     <div>
       <Sidebar />
       <Header />
-            <main className="ml-[264px] min-h-screen">
+            <main className="ml-[264px] max-h-full">
                 <div className="flex justify-center px-8 py-10">
                     <div className="w-full max-w-2xl">
                         <FileList />

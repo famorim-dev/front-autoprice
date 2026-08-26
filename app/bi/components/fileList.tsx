@@ -4,6 +4,9 @@ import Loader from "@/global/components/loader/loader"
 import { buscarZip } from "@/services/baixarArquivos"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { FaArrowRight, FaFile, FaFileDownload } from "react-icons/fa"
+import { FaFileArrowDown, FaFileArrowUp, FaFileCircleExclamation, FaFileCirclePlus } from "react-icons/fa6"
+import { SiOpenai, SiOpenaigym, SiOpenapiinitiative } from "react-icons/si"
 
 export default function FileList() {
     const route = useRouter()
@@ -56,7 +59,7 @@ export default function FileList() {
     }
 
     return (
-        <section className="w-full h-[600px] flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <section className="w-full h-[50%] flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
             {loading && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-[60] rounded-2xl">
@@ -67,16 +70,16 @@ export default function FileList() {
             <div className="shrink-0 px-6 py-5 border-b border-gray-100">
                 <div className="flex items-center gap-3">
 
-                    <div className="flex items-center justify-center size-10 rounded-lg bg-blue-50 text-blue-600">
-                        📁
+                    <div className="flex items-center justify-center size-10 rounded-lg bg-surface text-primary-active">
+                        <FaFileArrowUp size={24} />
                     </div>
 
                     <div>
-                        <h1 className="text-base font-semibold text-gray-800">
+                        <h1 className="text-base font-semibold text-foreground">
                             Arquivos
                         </h1>
 
-                        <p className="text-sm text-gray-400">
+                        <p className="text-sm text-muted font-medium">
                             Selecione um arquivo para consultar os dados
                         </p>
                     </div>
@@ -114,14 +117,14 @@ export default function FileList() {
                                     justify-center
                                     size-9
                                     rounded-md
-                                    bg-gray-100
-                                    text-gray-500
-                                    group-hover:bg-blue-50
-                                    group-hover:text-blue-600
+                                    bg-surface
+                                    text-muted
+                                    group-hover:bg-surface
+                                    group-hover:text-primary-hover
                                     transition
                                     shrink-0
                                 ">
-                                    📄
+                                    <FaFileCirclePlus size={24} />
                                 </div>
 
                                 <span className="
@@ -129,23 +132,23 @@ export default function FileList() {
                                     truncate
                                     text-sm
                                     font-medium
-                                    text-gray-700
-                                    group-hover:text-blue-700
+                                    text-foreground
+                                    group-hover:text-primary-hover
                                 ">
                                     {file}
                                 </span>
 
                                 <span className="
-                                    text-gray-300
-                                    group-hover:text-blue-500
+                                    text-muted
+                                    group-hover:text-primary-hover
                                 ">
-                                    →
+                                    <FaArrowRight  size={12}/>
                                 </span>
 
                             </button>
                         ))
                     ) : (
-                        <p className="text-gray-800">
+                        <p className="text-foreground font-bold">
                             Sem Dados, Por Favor Contate Um Consultor!
                         </p>
                     )

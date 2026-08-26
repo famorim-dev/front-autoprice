@@ -4,9 +4,8 @@ import Loader from "@/global/components/loader/loader"
 import { buscarZip } from "@/services/baixarArquivos"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { FaArrowRight, FaFile, FaFileDownload } from "react-icons/fa"
-import { FaFileArrowDown, FaFileArrowUp, FaFileCircleExclamation, FaFileCirclePlus } from "react-icons/fa6"
-import { SiOpenai, SiOpenaigym, SiOpenapiinitiative } from "react-icons/si"
+import { FaArrowRight} from "react-icons/fa"
+import { FaFileArrowUp, FaFileCirclePlus } from "react-icons/fa6"
 
 export default function FileList() {
     const route = useRouter()

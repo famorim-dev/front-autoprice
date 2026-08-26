@@ -59,7 +59,7 @@ export default function FileList() {
     }
 
     return (
-        <section className="w-full h-[50%] flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <section className="w-full h-120 flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
 
             {loading && (
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center z-[60] rounded-2xl">

@@ -21,7 +21,7 @@ export default function Sidebar() {
     }, [])
     return (
         <aside
-            className="bg-white border-r border-slate-300 w-full h-full fixed top-0 left-0 max-w-[264px] py-6 px-4 overflow-auto">
+            className="bg-white border-r border-slate-300 w-full h-full fixed top-0 left-0 max-w-66 py-6 px-4 overflow-auto max-sm:max-w-41">
             <nav className="h-full" aria-label="Primary sidebar navigation">
                 <div className="relative flex flex-col h-full">
 

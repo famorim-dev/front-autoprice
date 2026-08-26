@@ -259,7 +259,7 @@ export default function Dropdowns() {
                                 </p>
                             </div>
                         ) : (
-                            <div className="p-2">
+                            <div className="p-2 m-2">
                                 {arquivos.map((item) => {
                                     const isDownloading = baixando === item
 

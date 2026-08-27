@@ -1,6 +1,6 @@
 'use client'
 import { Header } from "@/global/components/header/header"
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 import { redirecionaPorCargo } from "@/utils/cargo"
 import { useRouter } from "next/navigation"
 import Table from "../components/table"
@@ -25,7 +25,9 @@ export default function Consultas() {
       <Sidebar />
       <Header />
       <main className="ml-[264px]">
-        <Table />
+        <Suspense fallback={null}>
+            <Table />
+        </Suspense>
       </main>
     </div>
   )

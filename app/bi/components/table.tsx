@@ -79,21 +79,21 @@ export default function Table() {
     }
 
     async function handleSum(column: string) {
-        if (!file || !gridApi.current) {
-            return
-        }
-
-        const filters = Object.fromEntries(
-            Object.entries(gridApi.current.getFilterModel()).map(
-                ([column, filter]) => [column, filter.filter ?? ""]
-            )
-        )
-        const response = await sum(file, column, filters)
-        setSumResult({ column, total: response.total })
 
         try {
             setLoading(true)
+            if (!file || !gridApi.current) {
+                return
+            }
 
+            const filters = Object.fromEntries(
+                Object.entries(gridApi.current.getFilterModel()).map(
+                    ([column, filter]) => [column, filter.filter ?? ""]
+                )
+            )
+            const response = await sum(file, column, filters)
+            setSumResult({ column, total: response.total })
+            
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Erro ao buscar dados")
         } finally {

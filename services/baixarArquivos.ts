@@ -2,7 +2,7 @@ import { api } from "@/lib/api"
 
 
 export async function buscarZip(): Promise<string[]> {
-    const res =  await api.get('arquivos')
+    const res =  await api.get('arquivos', {withCredentials: true})
     return res.data
 }
 

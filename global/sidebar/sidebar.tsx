@@ -77,22 +77,22 @@ export default function Sidebar() {
                                             Consultas
                                         </a>
                                     </li>
-                                    <li>
-                                        <a href="/bi"
-                                            className="flex items-center gap-2.5 hover:text-primary-hover transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-hover rounded">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="size-[18px] fill-current"
-                                                viewBox="0 0 24 24"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M12 2C6.477 2 2 3.79 2 6s4.477 4 10 4 10-1.79 10-4-4.477-4-10-4Zm0 10c-5.523 0-10-1.79-10-4v4c0 2.21 4.477 4 10 4s10-1.79 10-4V8c0 2.21-4.477 4-10 4Zm0 6c-5.523 0-10-1.79-10-4v4c0 2.21 4.477 4 10 4s10-1.79 10-4v-4c0 2.21-4.477 4-10 4Z" />
-                                            </svg>
-                                            Dados
-                                        </a>
-                                    </li>
                                 </>
                             ) : (null)}
+                            <li>
+                                <a href="/bi"
+                                    className="flex items-center gap-2.5 hover:text-primary-hover transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-hover rounded">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="size-[18px] fill-current"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M12 2C6.477 2 2 3.79 2 6s4.477 4 10 4 10-1.79 10-4-4.477-4-10-4Zm0 10c-5.523 0-10-1.79-10-4v4c0 2.21 4.477 4 10 4s10-1.79 10-4V8c0 2.21-4.477 4-10 4Zm0 6c-5.523 0-10-1.79-10-4v4c0 2.21 4.477 4 10 4s10-1.79 10-4v-4c0 2.21-4.477 4-10 4Z" />
+                                    </svg>
+                                    Dados
+                                </a>
+                            </li>
                             {(user?.cargo === "admin" || user?.cargo === "suporte") ? (
                                 <li>
                                     <a href="/funcionalHt"

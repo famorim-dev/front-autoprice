@@ -13,6 +13,7 @@ import type { Filter } from "../../../types/filter"
 import { isNumericColumn } from "./table.utils"
 import "ag-grid-community/styles/ag-grid.css"
 import "ag-grid-community/styles/ag-theme-balham.css"
+import { baixarArquivoZip } from "@/services/baixarArquivos"
 
 ModuleRegistry.registerModules([AllCommunityModule])
 
@@ -165,10 +166,24 @@ export default function Table() {
         loadData()
     }
 
-    function exportCsv() {
-        gridApi.current?.exportDataAsCsv({
-            fileName: `${file ?? "dados"}-bi.csv`,
-        })
+    async function exportCsv(nome: string){
+        try {
+
+            const blob = await baixarArquivoZip(nome)
+            const url = window.URL.createObjectURL(blob)
+
+            const link = document.createElement("a")
+            link.href = url
+            link.download = `${nome}.zip`
+
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+
+            window.URL.revokeObjectURL(url)
+        } catch (error) {
+            toast.error("Erro ao baixar arquivo")
+        }
     }
 
     useEffect(() => {
@@ -224,7 +239,7 @@ export default function Table() {
                             Atualizar
                         </button>
 
-                        <button onClick={exportCsv} disabled={!rowData.length} className="flex h-10 items-center gap-2 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover disabled:opacity-50">
+                        <button onClick={() => exportCsv(file!)} disabled={!rowData.length} className="flex h-10 items-center gap-2 rounded-lg bg-primary px-3 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover disabled:opacity-50">
                             <FiDownload size={16} />
                             Exportar
                         </button>

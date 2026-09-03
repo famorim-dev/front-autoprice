@@ -168,7 +168,7 @@ export default function Table() {
 
     async function exportCsv(nome: string){
         try {
-
+            setLoading(true)
             const blob = await baixarArquivoZip(nome)
             const url = window.URL.createObjectURL(blob)
 
@@ -183,6 +183,8 @@ export default function Table() {
             window.URL.revokeObjectURL(url)
         } catch (error) {
             toast.error("Erro ao baixar arquivo")
+        } finally {
+            setLoading(false)
         }
     }
 

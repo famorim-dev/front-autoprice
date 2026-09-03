@@ -1,3 +1,4 @@
+
 "use client"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -17,10 +18,11 @@ ModuleRegistry.registerModules([AllCommunityModule])
 
 export default function Table() {
     const [rowData, setRowData] = useState<any[]>([])
-    const [sumResult, setSumResult] = useState<{column: string, total: number} | null>(null)
+    const [sumResult, setSumResult] = useState<{ column: string, total: number } | null>(null)
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState("")
-    const [selectedColumn, setSelectedColumn] = useState("")
+    const [searchColumn, setSearchColumn] = useState("")
+    const [sumColumn, setSumColumn] = useState("")
     const [filters, setFilters] = useState<Record<string, Filter>>({})
 
     const gridApi = useRef<GridApi | null>(null)
@@ -29,22 +31,30 @@ export default function Table() {
     const searchParams = useSearchParams()
     const file = searchParams.get("file")
 
+    const columns = useMemo(() => {
+        if (!rowData.length) {
+            return []
+        }
+
+        return Object.keys(rowData[0])
+    }, [rowData])
+
     const numericColumns = useMemo(() => {
         if (!rowData.length) {
             return []
         }
 
-        return Object.keys(rowData[0]).filter(column =>
+        return columns.filter(column =>
             isNumericColumn(rowData, column)
         )
-    }, [rowData])
+    }, [rowData, columns])
 
     const columnDefs = useMemo<ColDef[]>(() => {
         if (!rowData.length) {
             return []
         }
 
-        return Object.keys(rowData[0]).map(field => ({
+        return columns.map(field => ({
             field,
             headerName: field,
             filter: isNumericColumn(rowData, field) ? "agNumberColumnFilter" : "agTextColumnFilter",
@@ -55,7 +65,7 @@ export default function Table() {
             headerClass: "border-r border-border px-4 text-xs font-semibold text-muted-foreground",
             cellClass: "border-r border-border/60 px-4 text-sm text-foreground",
         }))
-    }, [rowData])
+    }, [rowData, columns])
 
     const loadData = useCallback(
         async (column = "", value = "") => {
@@ -77,7 +87,7 @@ export default function Table() {
             } catch (error) {
                 setRowData([])
 
-                toast.error( error instanceof Error ? error.message : "Erro ao buscar dados")
+                toast.error(error instanceof Error ? error.message : "Erro ao buscar dados")
             } finally {
                 setLoading(false)
             }
@@ -87,7 +97,7 @@ export default function Table() {
 
     function getFilters(model: Record<string, Filter>) {
         return Object.fromEntries(
-            Object.entries(model).map(([column, filter]) => [ column, filter.filter ?? ""])
+            Object.entries(model).map(([column, filter]) => [column, filter.filter ?? ""])
         )
     }
 
@@ -99,15 +109,14 @@ export default function Table() {
         try {
             setLoading(true)
 
-            const model = gridApi.current.getFilterModel() as Record< string, Filter>
+            const model = gridApi.current.getFilterModel() as Record<string, Filter>
             const currentFilters = getFilters(model)
-            const response = await sum( file, column, currentFilters)
+            const response = await sum(file, column, currentFilters)
 
             setSumResult({
                 column,
                 total: Number(response.total ?? 0),
             })
-
         } catch (error) {
             toast.error(error instanceof Error ? error.message : "Erro ao calcular soma")
         } finally {
@@ -116,7 +125,7 @@ export default function Table() {
     }
 
     function handleFilterChanged(event: FilterChangedEvent) {
-        const model = event.api.getFilterModel() as Record< string, Filter>
+        const model = event.api.getFilterModel() as Record<string, Filter>
         setFilters(model)
         const currentFilters = getFilters(model)
         loadData("", JSON.stringify(currentFilters))
@@ -125,20 +134,34 @@ export default function Table() {
     function handleSearch(value: string) {
         setSearch(value)
 
-        if (!value.trim() || !selectedColumn) {
+        if (!value.trim()) {
+            loadData()
             return
         }
 
-        loadData(selectedColumn, value.trim())
+        loadData(searchColumn, value.trim())
+    }
+
+    function handleSearchColumn(column: string) {
+        setSearchColumn(column)
+
+        if (!search.trim()) {
+            return
+        }
+
+        loadData(column, search.trim())
     }
 
     function clearSearch() {
         setSearch("")
+        setSearchColumn("")
         loadData()
     }
 
     function refresh() {
         setSumResult(null)
+        setSearch("")
+        setSearchColumn("")
         loadData()
     }
 
@@ -155,10 +178,10 @@ export default function Table() {
     }, [file, loadData])
 
     useEffect(() => {
-        if (!selectedColumn && numericColumns.length) {
-            setSelectedColumn(numericColumns[0])
+        if (!sumColumn && numericColumns.length) {
+            setSumColumn("")
         }
-    }, [numericColumns, selectedColumn])
+    }, [numericColumns, sumColumn])
 
     return (
         <main className="min-h-screen w-full bg-background">
@@ -197,7 +220,7 @@ export default function Table() {
 
                     <div className="flex items-center gap-2">
                         <button onClick={refresh} className="flex h-10 items-center gap-2 rounded-lg border border-border bg-surface px-3 text-sm font-medium text-foreground transition">
-                            <FiRefreshCw size={16} className={ loading ? "animate-spin": ""}/>
+                            <FiRefreshCw size={16} className={loading ? "animate-spin" : ""} />
                             Atualizar
                         </button>
 
@@ -209,81 +232,64 @@ export default function Table() {
                 </div>
 
                 <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                    <Card icon={<FiTable size={18} />} title="Registros" value={rowData.length.toLocaleString("pt-BR")} description="Dados carregados"/>
-                    <Card icon={<FiDatabase size={18} />} title="Colunas" value={columnDefs.length.toLocaleString("pt-BR")} description="Campos disponíveis"/>
-                    <Card icon={<FiHash size={18} />} title="Colunas numéricas" value={numericColumns.length.toLocaleString( "pt-BR" )} description="Campos para análise"/>
-                    <Card icon={<FiBarChart size={18} />} title="Soma" value={sumResult ? sumResult.total.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 2}): "—"} description={ sumResult?.column ?? "Nenhuma coluna selecionada"}/>
+                    <Card icon={<FiTable size={18} />} title="Registros" value={rowData.length.toLocaleString("pt-BR")} description="Dados carregados" />
+                    <Card icon={<FiDatabase size={18} />} title="Colunas" value={columnDefs.length.toLocaleString("pt-BR")} description="Campos disponíveis" />
+                    <Card icon={<FiHash size={18} />} title="Colunas numéricas" value={numericColumns.length.toLocaleString("pt-BR")} description="Campos para análise" />
+                    <Card icon={<FiBarChart size={18} />} title="Soma" value={sumResult ? sumResult.total.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 2 }) : "—"} description={sumResult?.column ?? "Nenhuma coluna selecionada"} />
                 </div>
 
                 <div className="mb-4 rounded-xl border border-border bg-surface p-3 shadow-sm">
-                    <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-                        <div className="relative w-full xl:max-w-md">
-                            <FiSearch size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-
-                            <input value={search} onChange={event => handleSearch( event.target.value)} placeholder="Pesquisar nos dados..." className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-10 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary"/>
-
-                            {search && (
-                                <button onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground">
-                                    <FiX size={15} />
-                                </button>
-                            )}
-                        </div>
-
-                        <div className="flex flex-wrap items-center gap-2">
-                            {numericColumns.length > 0 && (
-                                <>
-                                    <div className="flex h-10 items-center gap-2 rounded-lg border border-border bg-background px-3">
-                                        <FiBarChart size={16}className="text-muted-foreground"/>
-
-                                        <select value={selectedColumn} onChange={event => setSelectedColumn(event.target.value )} className="bg-transparent text-sm font-medium text-foreground outline-none">
-                                            <option value="">
-                                                Coluna para somar
+                    <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
+                        {numericColumns.length > 0 && (
+                            <div className="flex flex-wrap items-center gap-2 xl:border-r xl:border-border xl:pr-4">
+                                <div className="flex h-10 items-center gap-2 rounded-lg border border-border bg-background px-3">
+                                    <FiBarChart size={16} className="text-muted-foreground" />
+                                    <select value={sumColumn} onChange={event => setSumColumn(event.target.value)} className="bg-transparent text-sm font-medium text-foreground outline-none">
+                                        <option value="">
+                                            Colunas Para Somar
+                                        </option>
+                                        {numericColumns.map(column => (
+                                            <option key={column} value={column}>
+                                                {column}
                                             </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                                            {numericColumns.map(
-                                                column => (
-                                                    <option key={column} value={column}>
-                                                        {column}
-                                                    </option>
-                                                )
-                                            )}
-                                        </select>
-                                    </div>
+                                <button onClick={() => sumColumn && handleSum(sumColumn)} disabled={!sumColumn} className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover disabled:opacity-50">
+                                    <FiBarChart size={16} />
+                                    Calcular
+                                </button>
+                            </div>
+                        )}
 
-                                    <button onClick={() => selectedColumn && handleSum(selectedColumn) } disabled={!selectedColumn} className="flex h-10 items-center gap-2 rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition hover:bg-primary-hover disabled:opacity-50">
-                                        <FiBarChart size={16} />
-                                        Calcular
+                        <div className="flex min-w-0 flex-1 gap-2">
+                            <div className="relative min-w-0 flex-1">
+                                <FiSearch size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+
+                                <input value={search} onChange={event => handleSearch(event.target.value)} placeholder="Pesquisar nos dados..." className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-10 text-sm text-foreground outline-none placeholder:text-muted-foreground focus:border-primary" />
+
+                                {search && (
+                                    <button onClick={clearSearch} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground transition hover:text-foreground">
+                                        <FiX size={15} />
                                     </button>
-                                </>
-                            )}
+                                )}
+                            </div>
+
+                            <div className="flex h-10 shrink-0 items-center rounded-lg border border-border bg-background px-3">
+                                <select value={searchColumn} onChange={event => handleSearchColumn(event.target.value)} className="bg-transparent text-sm font-medium text-foreground outline-none">
+                                    <option value="">
+                                        Consultar Colunas
+                                    </option>
+                                    {columns.map(column => (
+                                        <option key={column} value={column}>
+                                            {column}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
                     </div>
-
-                    {Object.keys(filters).length > 0 && (
-                        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-border pt-3">
-                            <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                                Filtros ativos
-                            </span>
-
-                            {Object.entries(filters).map(
-                                ([column, filter]) => (
-                                    <div key={column} className="rounded-md bg-muted px-2.5 py-1.5 text-xs font-medium text-foreground">
-                                        <span className="font-semibold">
-                                            {column}
-                                        </span>
-
-                                        <span className="mx-1 text-muted-foreground">
-                                            =
-                                        </span>
-
-                                        <span>
-                                            {filter.filter ?? "Filtro"}
-                                        </span>
-                                    </div>
-                                )
-                            )}
-                        </div>
-                    )}
                 </div>
 
                 <div className="min-h-0 flex-1 overflow-hidden rounded-xl border border-border bg-surface shadow-sm">

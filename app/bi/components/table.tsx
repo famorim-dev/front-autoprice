@@ -27,6 +27,7 @@ export default function Table() {
     const [filters, setFilters] = useState<Record<string, Filter>>({})
 
     const gridApi = useRef<GridApi | null>(null)
+    const requestIdRef = useRef(0)
 
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -75,22 +76,38 @@ export default function Table() {
                 return
             }
 
+            const requestId = ++requestIdRef.current
+
             try {
                 setLoading(true)
 
                 const response = await data(file, column, value)
 
+                if (requestId !== requestIdRef.current) {
+                    return
+                }
+
                 if (!Array.isArray(response)) {
-                    throw new Error("Resposta inválida")
+                    throw new Error("Não foi possível buscar os dados")
                 }
 
                 setRowData(response)
             } catch (error) {
+                if (requestId !== requestIdRef.current) {
+                    return
+                }
+
                 setRowData([])
 
-                toast.error(error instanceof Error ? error.message : "Erro ao buscar dados")
+                toast.error(
+                    error instanceof Error
+                        ? error.message
+                        : "Erro ao buscar dados"
+                )
             } finally {
-                setLoading(false)
+                if (requestId === requestIdRef.current) {
+                    setLoading(false)
+                }
             }
         },
         [file, router]
@@ -166,7 +183,7 @@ export default function Table() {
         loadData()
     }
 
-    async function exportCsv(nome: string){
+    async function exportCsv(nome: string) {
         try {
             setLoading(true)
             const blob = await baixarArquivoZip(nome)
@@ -189,10 +206,13 @@ export default function Table() {
     }
 
     useEffect(() => {
-        if (file) {
-            loadData()
+        if (!file) {
+            router.push("/bi")
+            return
         }
-    }, [file, loadData])
+
+        loadData()
+    }, [file, loadData, router])
 
     useEffect(() => {
         if (!sumColumn && numericColumns.length) {

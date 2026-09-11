@@ -80,10 +80,10 @@ export function Header(){
                             </button>
                             <div className="flex flex-col leading-tight">
                                 <p className="text-xs font-medium text-gray-400 uppercase tracking-wide">
-                                    {user?.cargo}
+                                    {user?.user.cargo}
                                 </p>
                                 <p className="text-sm font-semibold text-gray-800">
-                                    {user?.nome}
+                                    {user?.user.nome}
                                 </p>
                             </div>
 
@@ -93,7 +93,7 @@ export function Header(){
                                     <ul className="text-sm">
                                         {/* <li className="p-2 text-gray-700 font-semibold cursor-pointer">Perfil</li>
                                         <li className="p-2 text-gray-700 font-semibold cursor-pointer">Configurações</li> */}
-                                        {(user?.cargo === "consultor" || user?.cargo === "admin") &&(
+                                        {(user?.user.cargo === "consultor" || user?.user.cargo === "admin") &&(
                                             <li onClick={() => window.location.href = "/consultas/status"} className="block w-full px-3 py-2 text-sm font-medium transition-colors border-b border-border cursor-pointer">Status</li>
                                         )}
                                         <li onClick={() => handleDesconnect()} className="block w-full px-3 py-2 text-sm font-medium hover:text-error transition-colors cursor-pointer">Sair</li>

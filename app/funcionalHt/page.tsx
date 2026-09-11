@@ -2,7 +2,7 @@
 
 import { Header } from "@/global/components/header/header";
 import { MainHt } from "./components/main";
-import { redirecionaPorCargo } from "@/utils/cargo";
+import { acessRole } from "@/utils/cargo";
 import { useRouter } from "next/navigation"
 import { useEffect } from "react";
 
@@ -11,7 +11,7 @@ export default function FuncionalHt(){
 
   useEffect(() => {
     async function check() {
-      const ok = await redirecionaPorCargo(["suporte","admin"])
+      const ok = await acessRole(["suporte","admin"])
 
       if (!ok) {
         router.push("/404")

@@ -2,7 +2,7 @@
 import { Header } from "@/global/components/header/header"
 import TableHome from "./components/table"
 import { useEffect } from "react"
-import { redirecionaPorCargo } from "@/utils/cargo"
+import { acessRole } from "@/utils/cargo"
 import { useRouter } from "next/navigation"
 
 export default function Consultas() {
@@ -10,7 +10,7 @@ export default function Consultas() {
 
   useEffect(() => {
     async function check() {
-      const ok = await redirecionaPorCargo(["consultor","admin"])
+      const ok = await acessRole(["consultor","admin"])
 
       if (!ok) {
         router.push("/404")

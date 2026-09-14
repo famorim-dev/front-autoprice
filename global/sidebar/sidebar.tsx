@@ -79,7 +79,7 @@ const pages: SidebarPage[] = [
     },
     {
         page: "user-management",
-        label: "user-management",
+        label: "Ger. de Usuários",
         href: "/user-management",
         icon: (
             <svg

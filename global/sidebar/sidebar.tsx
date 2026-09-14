@@ -77,6 +77,21 @@ const pages: SidebarPage[] = [
             </svg>
         ),
     },
+    {
+        page: "user-management",
+        label: "user-management",
+        href: "/user-management",
+        icon: (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-[18px] fill-current"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <path d="M16 11a4 4 0 1 0-3.99-4A4 4 0 0 0 16 11Zm-8 0a3.5 3.5 0 1 0-3.49-3.5A3.5 3.5 0 0 0 8 11Zm8 2c-3.31 0-6 1.79-6 4v2h12v-2c0-2.21-2.69-4-6-4ZM8 13c-2.76 0-5 1.57-5 3.5V19h5v-2c0-1.17.58-2.24 1.5-3.03A6.62 6.62 0 0 0 8 13Z" />
+            </svg>
+        ),
+    },
 ]
 
 const pagesByRole: Record<string, string[]> = {

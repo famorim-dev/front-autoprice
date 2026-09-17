@@ -10,6 +10,7 @@ export default function Table() {
 
     const [user, setUser] = useState<UserClient[] | null>()
     const [status, setStatus] = useState<string[] | null>()
+    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
         getAllUserClient()
@@ -116,7 +117,7 @@ export default function Table() {
                         <tbody>
                             {user && user.length > 0 ? (
 
-                                user?.map((item) => {
+                                user?.slice((currentPage - 1) * 6, currentPage * 6).map((item) => {
 
                                     const isOnline = status?.includes(item.user.id) ?? false
 
@@ -196,11 +197,15 @@ export default function Table() {
                     </p>
                     <div className="flex gap-1">
                         <button
+                            onClick={() => setCurrentPage(currentPage - 1)}
+                            disabled={currentPage === 1}
                             className="rounded border border-slate-300 py-2.5 px-3 text-center text-xs font-semibold text-slate-600 transition-all hover:opacity-75 focus:ring focus:ring-slate-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                             anterior
                         </button>
                         <button
+                            onClick={() => setCurrentPage(currentPage + 1)}
+                            disabled={!user || currentPage * 6 >= user.length}
                             className="rounded border border-slate-300 py-2.5 px-3 text-center text-xs font-semibold text-slate-600 transition-all hover:opacity-75 focus:ring focus:ring-slate-300 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             type="button">
                             próximo

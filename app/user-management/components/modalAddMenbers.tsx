@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
 import { Modal } from "@/global/components/modal/modal";
 import { createUserClient } from "@/services/me";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
+import { ModalProps } from "./ModalProps";
 
-interface ModalAddMenbersProps { openCreate: ReactNode }
 
-export default function ModalAddMenbers({ openCreate }: ModalAddMenbersProps) {
+export default function ModalAddMenbers({ openCreate }: ModalProps) {
     const [open, setOpen] = useState(false)
     const [name, setName] = useState<string>()
     const [email, setEmail] = useState<string>()

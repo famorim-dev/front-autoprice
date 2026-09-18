@@ -184,9 +184,13 @@ export default function Table() {
                                 })
 
                             ) : (
-
-                                <p>Nenhum usuário encontrado.</p>
-
+                                <tr>
+                                    <td colSpan={5} className="p-8 text-center">
+                                        <p className="text-sm text-slate-500">
+                                            Nenhum usuário encontrado.
+                                        </p>
+                                    </td>
+                                </tr>
                             )}
                         </tbody>
                     </table>

@@ -17,9 +17,7 @@ const availablePages = [
 export default function ModalUpdateMenbers({ openCreate, id, client }: ModalProps) {
     const [open, setOpen] = useState(false)
     const [name, setName] = useState<string>()
-    const [email, setEmail] = useState<string>()
     const [userAcessPage, setUserAcessPage] = useState<Page[] | null>()
-    const [send, setSend] = useState<boolean>(false)
     const [pages, setPages] = useState<Record<string, boolean>>({ bi: false })
 
     useEffect(() => {

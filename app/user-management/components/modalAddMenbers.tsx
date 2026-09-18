@@ -16,7 +16,7 @@ export default function ModalAddMenbers({ openCreate }: ModalProps) {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         try {
-            const res = await createUserClient(name!, email!, password!)
+            const res = await createUserClient(name || "", email!, password!)
             toast.success(res.message)
             setOpen(false)
             return

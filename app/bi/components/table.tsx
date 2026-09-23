@@ -6,7 +6,7 @@ import { AgGridReact } from "ag-grid-react"
 import { AllCommunityModule, ModuleRegistry, type ColDef, type FilterChangedEvent, type GridApi } from "ag-grid-community"
 import { FiBarChart2, FiBarChart, FiDatabase, FiDownload, FiHash, FiRefreshCw, FiSearch, FiTable, FiX } from "react-icons/fi"
 import { toast } from "sonner"
-import { data, sum } from "@/services/bi"
+import { data, rows, sum } from "@/services/bi"
 import Loader from "@/global/components/loader/loader"
 import Card from "@/global/components/card/card"
 import type { Filter } from "../../../types/filter"
@@ -24,6 +24,7 @@ export default function Table() {
     const [search, setSearch] = useState("")
     const [searchColumn, setSearchColumn] = useState("")
     const [sumColumn, setSumColumn] = useState("")
+    const [lines, setLines] = useState<{ total: number }>()
     const [filters, setFilters] = useState<Record<string, Filter>>({})
 
     const gridApi = useRef<GridApi | null>(null)
@@ -220,6 +221,15 @@ export default function Table() {
         }
     }, [numericColumns, sumColumn])
 
+    useEffect(() => {
+        if (!file) {
+            router.push("/bi")
+            return
+        }
+
+        rows(file).then((lines) => setLines(lines)).catch((e) => setLines({total: 0}))
+    }, [])
+
     return (
         <main className="min-h-screen w-full bg-background">
             {loading && (
@@ -269,7 +279,7 @@ export default function Table() {
                 </div>
 
                 <div className="mb-5 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                    <Card icon={<FiTable size={18} />} title="Registros" value={rowData.length.toLocaleString("pt-BR")} description="Dados carregados" />
+                    <Card icon={<FiTable size={18} />} title="Registros" value={lines?.total && lines.total > 0 ? lines.total.toLocaleString("pt-BR") : "Indisponível"} description="Dados carregados" />
                     <Card icon={<FiDatabase size={18} />} title="Colunas" value={columnDefs.length.toLocaleString("pt-BR")} description="Campos disponíveis" />
                     <Card icon={<FiHash size={18} />} title="Colunas numéricas" value={numericColumns.length.toLocaleString("pt-BR")} description="Campos para análise" />
                     <Card icon={<FiBarChart size={18} />} title="Soma" value={sumResult ? sumResult.total.toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 2 }) : "—"} description={sumResult?.column ?? "Nenhuma coluna selecionada"} />

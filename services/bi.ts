@@ -10,3 +10,8 @@ export async function sum(file: string, column:string, filters?: Record<string, 
     const res =  await api.post(`/bi/sum`, {file: file, column: column, filters: filters})
     return res.data
 }
+
+export async function rows(file: string){
+    const res =  await api.post(`/bi/rows`, {name: file})
+    return res.data
+}

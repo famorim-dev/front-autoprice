@@ -95,7 +95,7 @@ export default function Table() {
 
             <div className="block mb-4 mx-auto border-b border-border pb-2 max-w-[500px]">
                 <p className="block w-full px-4 py-2 text-center text-foreground">
-                    Aqui você <b>visualiza as importações realizadas</b>
+                    Aqui você <b>importa e visualiza as importações realizadas</b>
                 </p>
             </div>
 

@@ -27,7 +27,7 @@ export default function UserManagement() {
       <Header />
       <main className="ml-[264px] max-sm:ml-35 max-h-full">
         <div className="flex justify-center px-8 py-10">
-          <div className="w-full max-w-2xl">
+          <div className="w-full ">
             <Table />
           </div>
         </div>

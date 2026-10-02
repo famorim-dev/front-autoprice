@@ -33,3 +33,8 @@ export async function updateUserClient(id: string, client: string, page: Record<
     const res = await api.post('/me/update',{user_id: id, name: name, client: client, page: page}, {withCredentials: true})
     return res.data
 }
+
+export async function deleteUserClient(id: string): Promise<{message: string}> {
+    const res = await api.post(`/me/delete/${id}`, {withCredentials: true})
+    return res.data
+}

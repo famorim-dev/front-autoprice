@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import ModalAddMenbers from "./modalAddMenbers";
 import ModalUpdateMenbers from "./modalUpdateMenbers";
+import ModalDeleteMenbers from "./modalDelete";
 
 export default function Table() {
 
@@ -178,7 +179,22 @@ export default function Table() {
                                                     </button>
                                                 } />
                                             </td>
+                                            <td className="p-4 border-b border-slate-200">
+                                                <ModalDeleteMenbers id={item.user_id} client={item.id} openCreate={
+                                                        <button type="button" aria-label="Remover membro" title="Remover membro" className="group relative flex h-10 w-10 items-center justify-center rounded-lg text-slate-500 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:scale-95 disabled:pointer-events-none disabled:opacity-50">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className="h-5 w-5 transition-transform duration-200 group-hover:scale-110">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M3 6h18"/>
 
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M8 6V4.5A1.5 1.5 0 0 1 9.5 3h5A1.5 1.5 0 0 1 16 4.5V6"/>
+
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M19 6l-1 14a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20L5 6"/>
+
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M10 10v7M14 10v7"/>
+                                                            </svg>
+                                                        </button>
+                                                    }
+                                                />
+                                            </td>
                                         </tr>
                                     )
                                 })
